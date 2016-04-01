@@ -6,12 +6,13 @@ import android.os.Bundle;
 public class Home extends AppCompatActivity {
 
     int test = 0;
+    float trololol;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         test = 1;
-
+        trololol = 13.37f;
     }
 }

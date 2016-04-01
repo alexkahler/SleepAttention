@@ -13,5 +13,6 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         test = 1;
 
+        TestClassBranch tcb;
     }
 }

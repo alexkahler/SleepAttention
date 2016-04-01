@@ -13,11 +13,8 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         test = 1;
-<<<<<<< HEAD
         trololol = 13.37f;
-=======
 
         TestClassBranch tcb;
->>>>>>> refs/remotes/origin/master
     }
 }

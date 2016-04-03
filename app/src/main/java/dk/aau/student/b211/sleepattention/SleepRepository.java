@@ -1,0 +1,111 @@
+package dk.aau.student.b211.sleepattention;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+/**
+ * Created by alexk on 03-04-2016.
+ */
+public class SleepRepository {
+
+    private DatabaseHelper dbHelper;
+    private List<Sleep> sleepList;
+    private static final String TAG = SleepRepository.class.getSimpleName();
+
+    public SleepRepository(Context context) {
+        dbHelper = DatabaseHelper.getInstance(context);
+        sleepList = new ArrayList<>();
+    }
+
+    public boolean insertRecord(double duration, Date date, int quality) {
+        ContentValues cv = new ContentValues();
+        if (duration == 0.0 || date == null) {
+            return false;
+        }
+        cv.put(Sleep.KEY_DURATION, duration);
+        cv.put(Sleep.KEY_DATE, new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", new Locale("da", "DK")).format(date));
+        cv.put(Sleep.KEY_QUALITY, quality);
+
+        if(dbHelper.getWritableDatabase().insert(Sleep.TABLE_NAME, null, cv) == -1) {
+            dbHelper.close();
+            return false;
+        }
+        dbHelper.close();
+        return true;
+    }
+
+    public boolean deleteRecord(int sleepID) {
+        if (dbHelper.getWritableDatabase().delete(Sleep.TABLE_NAME, Sleep.KEY_ID + " = ?", new String[]{Integer.toString(sleepID)}) >= 1) {
+            dbHelper.close();
+            return true;
+        }
+        dbHelper.close();
+        return false;
+    }
+
+    /**
+     *
+     * @param sleepID
+     * @return
+     */
+    public Sleep getRecord(int sleepID) {
+        return parseResults(dbHelper.getReadableDatabase().rawQuery("SELECT * FROM " + Sleep.TABLE_NAME + " WHERE " + Sleep.KEY_ID + " = ? ",
+                new String[]{Integer.toString(sleepID)})).get(0);
+
+    }
+
+    public List<Sleep> getAllRecords() {
+        return parseResults(dbHelper.getReadableDatabase().rawQuery("SELECT * FROM " + Sleep.TABLE_NAME, null));
+    }
+
+    private List<Sleep> parseResults(Cursor results) {
+        List<Sleep> sleepList = new ArrayList<>();
+        if(results.moveToFirst()) {
+            do {
+                try {
+                    Sleep s = new Sleep(
+                            results.getInt(results.getColumnIndex(Sleep.KEY_ID)),
+                            results.getDouble(results.getColumnIndex(Sleep.KEY_DURATION)),
+                            new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", new Locale("da", "DK")).parse(results.getString(results.getColumnIndex(Sleep.KEY_DATE))),
+                            results.getInt(results.getColumnIndex(Sleep.KEY_QUALITY)));
+                    sleepList.add(s);
+                } catch(ParseException e) {
+                    Log.e(TAG, "ParseException happened: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+            while (results.moveToNext());
+        }
+        else {
+            sleepList.add(null);
+        }
+        dbHelper.close();
+        results.close();
+        return sleepList;
+    }
+
+    public boolean updateRecord(int sleepID, double duration, Date date, int quality) {
+        ContentValues cv = new ContentValues();
+        if (sleepID >= 0) {
+            cv.put(Sleep.KEY_ID, sleepID);
+            if(date != null) {
+                cv.put(Sleep.KEY_DATE, new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", new Locale("da", "DK")).format(date));
+            }
+            cv.put(Sleep.KEY_QUALITY, quality);
+            cv.put(Sleep.KEY_DURATION, duration);
+            if(dbHelper.getWritableDatabase().update(Sleep.TABLE_NAME, cv, Sleep.KEY_ID + " = ?", new String[]{sleepID + ""}) >= 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+}

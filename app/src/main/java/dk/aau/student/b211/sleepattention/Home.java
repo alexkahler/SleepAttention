@@ -17,9 +17,15 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+<<<<<<< HEAD
         };
+=======
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+>>>>>>> refs/remotes/origin/master
 
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //getMenuInflater().inflate(R.menu.home_activity, menu);
@@ -32,4 +38,5 @@ public class Home extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    */
 }

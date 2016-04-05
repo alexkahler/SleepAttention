@@ -17,8 +17,8 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         Button sleepButton = (Button)findViewById(R.id.sleep_button);
         sleepButton.setOnClickListener(new View.OnClickListener() {
@@ -30,6 +30,7 @@ public class Home extends AppCompatActivity {
         });
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //getMenuInflater().inflate(R.menu.home_activity, menu);
@@ -42,4 +43,5 @@ public class Home extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    */
 }

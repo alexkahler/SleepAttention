@@ -17,18 +17,13 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+<<<<<<< HEAD
+        };
+=======
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
+>>>>>>> refs/remotes/origin/master
 
-        Button sleepButton = (Button)findViewById(R.id.sleep_button);
-        sleepButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), Home.class);
-                startActivity(i);
-            }
-        });
-    }
 
     /*
     @Override

@@ -32,7 +32,7 @@ public class Statistics extends AppCompatActivity {
 
 
     }
-    // creating list of x-axis labels (date)
+    // creating list of x-axis labels to show the date of the entry.
     private ArrayList<String> getXAxisValues() {
 
         ArrayList<String> labels = new ArrayList<>();
@@ -45,7 +45,7 @@ public class Statistics extends AppCompatActivity {
         return labels;
     }
 
-    // this method is used to create data for line graph
+    // this method is used to create data for line graph representing PVT score
     public LineData lineData(){
 
         ArrayList<Entry> line = new ArrayList<>();
@@ -68,19 +68,19 @@ public class Statistics extends AppCompatActivity {
         return lineData;
 
     }
-    // this method is used to create data for Bar graph
+    // this method is used to create data for Bar graph representing hours slept
     public BarData barData(){
 
-        ArrayList<BarEntry> group1 = new ArrayList<>();
+        ArrayList<BarEntry> sleepBar = new ArrayList<>();
 
         SleepRepository sp = new SleepRepository(this);
 
         for(int i = 0; i < (sp.getAllRecords().size()) ; i++){
             float sleepDur = (float)sp.getRecord(i).getDuration();
-            group1.add(new BarEntry(sleepDur,i));
+            sleepBar.add(new BarEntry(sleepDur,i));
         }
 
-        BarDataSet barDataSet = new BarDataSet(group1, "Hours Slept");
+        BarDataSet barDataSet = new BarDataSet(sleepBar, "Hours Slept");
         barDataSet.setColor(Color.rgb(0, 225, 0));
         barDataSet.setValueTextSize(8f);
 

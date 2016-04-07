@@ -44,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (newVersion > oldVersion) {
             switch (oldVersion) {
                 case 1: {
-                    //executeSQLScript(db, "upgade_v2.sql");
+                    //executeSQLScript(db, "upgrade_v2.sql");
                     //DATABASE_VERSION = 2;
                 }
                 case 2: {

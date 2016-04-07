@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/sleep_button"
             android:layout_marginBottom="237dp"
-            android:theme="@style/Widget.AppCompat.Button.Colored"
+            android:theme="@style/Base.Widget.AppCompat.Button"
             android:text="@string/button_sleep_text"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true" />

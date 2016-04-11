@@ -4,6 +4,7 @@
 
 
     <!-- Main Layout Strings -->
-    <string name="button_sleep_text">Sleep</string>
-
+    <string name="home_sleep_button">Sleep</string>
+    <string name="home_menu_settings">Settings</string>
+    <string name="home_attention_button">Attention Test</string>
 </resources>

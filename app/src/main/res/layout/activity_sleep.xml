@@ -9,4 +9,28 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="dk.aau.student.b211.sleepattention.SleepActivity">
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Go to bed"
+        android:id="@+id/sleep_startlog_button"
+        android:layout_below="@+id/sleep_timepicker"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="26dp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Wake Up!"
+        android:id="@+id/sleep_endlog_button"
+        android:layout_below="@+id/sleep_startlog_button"
+        android:layout_centerHorizontal="true" />
+
+    <TimePicker
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sleep_timepicker"
+        android:layout_above="@+id/sleep_startlog_button"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

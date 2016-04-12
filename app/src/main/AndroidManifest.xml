@@ -15,8 +15,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Home" />
-        <activity android:name=".Statistics"></activity>
+        <!-- <activity android:name=".Home"></activity> -->
+
+        <receiver android:name=".AlarmReceiver">
+
+        </receiver>
+
+        <service android:name=".RingtoneService"
+            android:enabled="true">
+        </service>
+
     </application>
 
 </manifest>

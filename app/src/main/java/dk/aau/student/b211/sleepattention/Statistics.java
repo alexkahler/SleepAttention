@@ -13,9 +13,15 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Statistics extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +39,28 @@ public class Statistics extends AppCompatActivity {
 
     }
     // creating list of x-axis labels to show the date of the entry.
+
     private ArrayList<String> getXAxisValues() {
 
         ArrayList<String> labels = new ArrayList<>();
 
         SleepRepository sp = new SleepRepository(this);
+        AttentionRepository ap = new AttentionRepository(this);
 
-        for(int i = 0; i < (sp.getAllRecords().size()) ; i++){
-            labels.add(sp.getRecord(i).getDate()+"");
+        // creating the list of x-axis labels based on the repository with the highest number of records/entries.
+        if(sp.getAllRecords().size() <= ap.getAllRecords().size()){
+            for(int i = 0; i < (sp.getAllRecords().size()) ; i++){
+                labels.add(sp.getRecord(i).getDate()+"");
+            }
         }
+        else{
+            for(int i = 0; i < (ap.getAllRecords().size()) ; i++){
+                labels.add(ap.getRecord(i).getDate()+"");
+                }
+            }
+
         return labels;
+
     }
 
     // this method is used to create data for line graph representing PVT score
@@ -52,8 +70,21 @@ public class Statistics extends AppCompatActivity {
 
         AttentionRepository ap = new AttentionRepository(this);
 
-        for(int i = 0; i < (ap.getAllRecords().size()) ; i++){
-            line.add(new Entry(ap.getRecord(i).getScore(),i));
+        // Checks the date of the previous record to see if it's equal to this. Excluding HH:mm:ss
+        for(int i = 0; i < ap.getAllRecords().size(); i++) {
+                if ((ap.getRecord(i).getDate().toString().regionMatches(0, ap.getRecord(i - 1).getDate().toString(), 0, 10)) && (i != 0)) {
+                    ap.deleteRecord(i-1);
+//                    int updatedScore = (ap.getRecord(i).getScore() + ap.getRecord(i - 1).getScore()) / 2;
+//                    ap.getRecord(i).setScore(updatedScore);
+//                    ArrayList<Integer> sameDateScores = new ArrayList<>();
+//                    sameDateScores.add(ap.getRecord(i).getScore());
+                }
+            }
+
+            // add the score entries to the line graph dataset.
+        for(int j = 0; j < ap.getAllRecords().size() ; j++){
+            line.add(new Entry(ap.getRecord(j).getScore(),j));
+
         }
 
         LineDataSet lineDataSet = new LineDataSet(line, "PVT score");
@@ -85,8 +116,8 @@ public class Statistics extends AppCompatActivity {
         barDataSet.setValueTextSize(8f);
 
         BarData barData = new BarData(getXAxisValues(),barDataSet);
-        return barData;
 
+        return barData;
 
     }
 }

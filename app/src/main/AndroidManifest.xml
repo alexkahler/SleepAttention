@@ -8,21 +8,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Home"
-            android:label="Sleep Attention">
+        <activity android:name=".SleepActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SleepActivity"
-            android:label="Sleep Logging"
-            android:parentActivityName=".Home"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="dk.aau.student.b211.sleepattention.Home"/>
-        </activity>
+        <activity android:name=".Home" />
+        <activity android:name=".Statistics"></activity>
     </application>
+
 </manifest>

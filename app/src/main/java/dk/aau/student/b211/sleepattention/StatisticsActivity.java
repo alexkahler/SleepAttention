@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class Statistics extends AppCompatActivity {
+public class StatisticsActivity extends AppCompatActivity {
 
 
 

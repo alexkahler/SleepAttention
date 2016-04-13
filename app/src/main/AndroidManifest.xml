@@ -27,6 +27,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="dk.aau.student.b211.sleepattention.HomeActivity" />
         </activity>
+        <activity android:name=".AttentionActivity" android:screenOrientation="portrait"></activity>
         <activity
             android:name=".StatisticsActivity"
             android:parentActivityName=".HomeActivity"

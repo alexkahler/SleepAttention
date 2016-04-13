@@ -42,8 +42,8 @@ public class HomeActivity extends AppCompatActivity {
         attentionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show();
-                //Intent i = new Intent(context, AttentionActivity.class);
+                //Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(context, AttentionActivity.class);
             }
         });
 

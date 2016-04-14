@@ -1,6 +1,7 @@
 package dk.aau.student.b211.sleepattention;
 
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,11 +22,14 @@ public class AttentionActivity extends AppCompatActivity {
     TimerTask mTimerTask;
     final Handler handler = new Handler();
     Timer t = new Timer();
+    AttentionRepository ar = new AttentionRepository(getApplicationContext());
 
     // Change to imageButton or w/e.
     ImageButton imageButton;
     Button button;
     TextView textView;
+    Date date;
+    Time time;
 
     boolean testRunning;
     boolean isActivated;
@@ -91,6 +98,9 @@ public class AttentionActivity extends AppCompatActivity {
                 }
                 s = "Average Reaction Time: " + sum/reactionTime.length + "ms";
                 textView.setText(s);
+
+
+                ar.insertRecord(time.getTime(), date, (int)sum/reactionTime.length);
             }
 
         }

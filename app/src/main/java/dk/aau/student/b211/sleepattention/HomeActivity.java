@@ -22,7 +22,6 @@ public class HomeActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
         findViews();
 
@@ -42,8 +41,8 @@ public class HomeActivity extends AppCompatActivity {
         attentionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(context, AttentionActivity.class);
+                startActivity(i);
             }
         });
 

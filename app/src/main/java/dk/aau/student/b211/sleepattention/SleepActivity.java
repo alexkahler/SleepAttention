@@ -24,65 +24,37 @@ import java.util.Locale;
 public class SleepActivity extends AppCompatActivity {
 
 
-    AlarmManager alarmmanager;
-    TimePicker alarmtimepicker;
-    int hours;
-    int minutes;
-
-
-    PendingIntent pendingintent;
-
-
-
+    private AlarmManager alarmmanager;
+    private TimePicker alarmtimepicker;
+    private int hours;
+    private int minutes;
+    private PendingIntent pendingintent;
     private SleepRepository sp;
     private Date date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep);
         sp = new SleepRepository(SleepActivity.this);
         date = new Date();
 
-
-
         //Create an Intent to the Receiver Class
         final Intent receiver = new Intent(getApplicationContext(), AlarmReceiver.class);
-
         alarmmanager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
         final Calendar calendar = Calendar.getInstance();
-
-
         alarmtimepicker = (TimePicker) findViewById(R.id.sleep_timepicker);
         alarmtimepicker.setIs24HourView(true);
-
-
-
-
-
-
-
-
 
         // Initializing the two Buttons in activity_sleep.xml
         Button startsleep = (Button) findViewById(R.id.sleep_startlog_button);
         Button endsleep = (Button) findViewById(R.id.sleep_endlog_button);
-
         final SleepRepository database = new SleepRepository(SleepActivity.this);
         final Date date = new Date();
-
-
 //        List<Sleep> sleepList = database.getAllRecords();
 //        Log.v("MOINMOINMOIN", "HALLO HALLO HALLO");
 //        Log.v("SleepActivity", sleepList.toString());
-
-
                 // onClickListener for the two Buttons in activity_sleep.xml
                 startsleep.setOnClickListener(new View.OnClickListener() {
 
@@ -90,24 +62,15 @@ public class SleepActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View v) {
-
                         database.insertRecord(33.0, date, 33);
-
-
-
-
                         //Setting Calendar instance with the Hour and Minute that we have picked on the TimePicker
+                        calendar.set(Calendar.HOUR_OF_DAY, alarmtimepicker.getHour());
+                        calendar.set(Calendar.MINUTE, alarmtimepicker.getMinute());
+                        Log.e(".getCurrentHour()", "value of alarmtimepicker.getCurrentHour()=" + alarmtimepicker.getHour());
+                        Log.e(".getCurrentMinute()", "value of alarmtimepicker.getCurrentMinute()=" + alarmtimepicker.getMinute());
 
-
-                            calendar.set(Calendar.HOUR_OF_DAY, alarmtimepicker.getCurrentHour());
-                            calendar.set(Calendar.MINUTE, alarmtimepicker.getCurrentMinute());
-
-                        Log.e(".getCurrentHour()", "value of alarmtimepicker.getCurrentHour()=" + alarmtimepicker.getCurrentHour());
-                        Log.e(".getCurrentMinute()", "value of alarmtimepicker.getCurrentMinute()=" + alarmtimepicker.getCurrentMinute());
-
-
-                                //Put in extra String into Receiver Intent
-                                //Tells the Clock that you have pressed the "Go to Bed" button
+                        //Put in extra String into Receiver Intent
+                        //Tells the Clock that you have pressed the "Go to Bed" button
                         receiver.putExtra("extra", "alarm on");
 
                         //Create a pending Intent that delays the Intent until the specified Calendar-Time
@@ -115,42 +78,20 @@ public class SleepActivity extends AppCompatActivity {
 
                         //Set the AlarmManager
                         alarmmanager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingintent);
-
-
-
                     }
                 });
-
-
-
-
 
         endsleep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 //Put in extra String into Receiver Intent
                 //Tells the clock that you have pressed the "Wake Up" button
                 receiver.putExtra("extra", "alarm off");
-
-
                 //Stop the Ringtone
                 sendBroadcast(receiver);
-
                 alarmmanager.cancel(pendingintent);
-
-           
-
-
-
-
             }
         });
-
-
-
-
 
 //        morningButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -162,7 +103,5 @@ public class SleepActivity extends AppCompatActivity {
 //
 //           }
 //        });
-
-
     }
 }

@@ -91,7 +91,7 @@ public class AttentionActivity extends AppCompatActivity {
                 }
                 s = "Average Reaction Time: " + sum/reactionTime.length + "ms";
                 textView.setText(s);
-                ar.insertRecord(new Date(), ((int)sum/reactionTime.length));
+                ar.insertRecord(0, new Date(), ((int)sum/reactionTime.length));
             }
 
         }

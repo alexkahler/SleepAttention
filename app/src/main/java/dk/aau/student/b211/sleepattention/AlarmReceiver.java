@@ -9,17 +9,19 @@ import android.util.Log;
  * Created by Leon on 05.04.2016.
  */
 public class AlarmReceiver extends BroadcastReceiver {
+    private static final String TAG = "AlarmReceiver";
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Log.e("We are in the Receiver!", "yay");
+        Log.v(TAG, "We are in the receiver - yay");
 
 
         //fetch extra Strings from intent
         String get_your_string = intent.getExtras().getString("extra");
 
 
-        Log.e("What is the key??", get_your_string);
+        Log.e(TAG, get_your_string);
 
 
         //Create an Intent for the RingtoneService

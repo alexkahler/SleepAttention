@@ -22,16 +22,24 @@
             android:name=".SleepActivity"
             android:label="Sleep Logging"
             android:parentActivityName=".HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="dk.aau.student.b211.sleepattention.HomeActivity" />
         </activity>
-        <activity android:name=".AttentionActivity" android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".AttentionActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="dk.aau.student.b211.sleepattention.HomeActivity" />
+        </activity>
         <activity
             android:name=".StatisticsActivity"
             android:parentActivityName=".HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="dk.aau.student.b211.sleepattention.HomeActivity" />

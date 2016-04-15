@@ -16,12 +16,16 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/*
+TODO: Give user score feedback based on reaction time. Eg: "Great! Your average reaction time was 320ms!" and then give user button to Exit PVT activity.
+ */
+
 public class AttentionActivity extends AppCompatActivity {
 
     private TimerTask mTimerTask;
     private final Handler handler = new Handler();
     private Timer t = new Timer();
-    private AttentionRepository ar = new AttentionRepository(getApplicationContext());
+    private AttentionRepository ar;
     private ImageButton imageButton;
     private Button button;
     private TextView textView;
@@ -38,7 +42,7 @@ public class AttentionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attention);
-
+        ar = new AttentionRepository(getApplicationContext());
         button = (Button)findViewById(R.id.attention_starttest_button);
         textView = (TextView)findViewById(R.id.textView);
         imageButton = (ImageButton)findViewById(R.id.attention_circle_imageButton);

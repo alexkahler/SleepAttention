@@ -44,32 +44,27 @@ public class StatisticsActivity extends AppCompatActivity {
 
         ArrayList<String> labels = new ArrayList<>();
 
-        SleepRepository sp = new SleepRepository(this);
-        AttentionRepository ap = new AttentionRepository(this);
+        SleepRepository sleepRepository = new SleepRepository(this);
+        AttentionRepository attentionRepository = new AttentionRepository(this);
 
         // creating the list of x-axis labels based on the repository with the highest number of records/entries.
-        if(sp.getAllRecords().size() <= ap.getAllRecords().size()){
-            for(int i = 0; i < (sp.getAllRecords().size()) ; i++){
-                labels.add(sp.getRecord(i).getDate()+"");
+        if(sleepRepository.getAllRecords().size() <= attentionRepository.getAllRecords().size()){ //TODO: Save all records in separate ArrayLists and compare size instead. Calling getAllRecords repeatedly is not CPU friendly as it has to access the database repeatedly.
+            for(int i = 0; i < (sleepRepository.getAllRecords().size()) ; i++){
+                labels.add(sleepRepository.getRecord(i).getDate()+"");
             }
         }
         else{
-            for(int i = 0; i < (ap.getAllRecords().size()) ; i++){
-                labels.add(ap.getRecord(i).getDate()+"");
+            for(int i = 0; i < (attentionRepository.getAllRecords().size()) ; i++){ //TODO: Change to for-each loop - more memory efficient with a JIT compiler.
+                labels.add(attentionRepository.getRecord(i).getDate()+"");
                 }
             }
-
         return labels;
-
     }
 
     // this method is used to create data for line graph representing PVT score
     public LineData lineData(){
-
         ArrayList<Entry> line = new ArrayList<>();
-
         AttentionRepository ap = new AttentionRepository(this);
-
         // Checks the date of the previous record to see if it's equal to this. Excluding HH:mm:ss
         for(int i = 0; i < ap.getAllRecords().size(); i++) {
                 if ((ap.getRecord(i).getDate().toString().regionMatches(0, ap.getRecord(i - 1).getDate().toString(), 0, 10)) && (i != 0)) {
@@ -80,7 +75,6 @@ public class StatisticsActivity extends AppCompatActivity {
 //                    sameDateScores.add(ap.getRecord(i).getScore());
                 }
             }
-
             // add the score entries to the line graph dataset.
         for(int j = 0; j < ap.getAllRecords().size() ; j++){
             line.add(new Entry(ap.getRecord(j).getScore(),j));
@@ -93,7 +87,6 @@ public class StatisticsActivity extends AppCompatActivity {
         lineDataSet.setDrawCircleHole(false);
         lineDataSet.setDrawCubic(true);
         lineDataSet.setValueTextSize(8f);
-
         LineData lineData = new LineData(getXAxisValues(),lineDataSet);
 
         return lineData;

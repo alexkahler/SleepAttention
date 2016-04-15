@@ -50,7 +50,7 @@ public class SleepActivity extends AppCompatActivity {
         // Initializing the two Buttons in activity_sleep.xml
         Button startsleep = (Button) findViewById(R.id.sleep_startlog_button);
         Button endsleep = (Button) findViewById(R.id.sleep_endlog_button);
-        final SleepRepository database = new SleepRepository(SleepActivity.this);
+        final SleepRepository sleepRepository = new SleepRepository(SleepActivity.this);
         final Date date = new Date();
 //        List<Sleep> sleepList = database.getAllRecords();
 //        Log.v("MOINMOINMOIN", "HALLO HALLO HALLO");
@@ -62,12 +62,12 @@ public class SleepActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View v) {
-                        database.insertRecord(33.0, date, 33);
+                        sleepRepository.insertRecord(33.0, date, 33);
                         //Setting Calendar instance with the Hour and Minute that we have picked on the TimePicker
-                        calendar.set(Calendar.HOUR_OF_DAY, alarmtimepicker.getHour());
-                        calendar.set(Calendar.MINUTE, alarmtimepicker.getMinute());
-                        Log.e(".getCurrentHour()", "value of alarmtimepicker.getCurrentHour()=" + alarmtimepicker.getHour());
-                        Log.e(".getCurrentMinute()", "value of alarmtimepicker.getCurrentMinute()=" + alarmtimepicker.getMinute());
+                        calendar.set(Calendar.HOUR_OF_DAY, alarmtimepicker.getCurrentHour());
+                        calendar.set(Calendar.MINUTE, alarmtimepicker.getCurrentMinute());
+                        Log.e(".getCurrentHour()", "value of alarmtimepicker.getCurrentHour()=" + alarmtimepicker.getCurrentHour());
+                        Log.e(".getCurrentMinute()", "value of alarmtimepicker.getCurrentMinute()=" + alarmtimepicker.getCurrentMinute());
 
                         //Put in extra String into Receiver Intent
                         //Tells the Clock that you have pressed the "Go to Bed" button
@@ -103,5 +103,6 @@ public class SleepActivity extends AppCompatActivity {
 //
 //           }
 //        });
+
     }
 }

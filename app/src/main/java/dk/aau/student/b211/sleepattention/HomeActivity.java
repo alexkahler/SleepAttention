@@ -20,11 +20,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         context = getApplicationContext();
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         findViews();
-
     }
 
     private void findViews() {
@@ -68,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Toast.makeText(context, "Not yet implemented", Toast.LENGTH_SHORT).show();
             /*
+            TODO: Settings Activity
             Intent i = new Intent(context, SettingsActivity.class);
             startActivity(i);
             return true;

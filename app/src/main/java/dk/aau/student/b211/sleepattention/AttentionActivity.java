@@ -18,26 +18,21 @@ import java.util.TimerTask;
 
 public class AttentionActivity extends AppCompatActivity {
 
-    // Don't touch those
-    TimerTask mTimerTask;
-    final Handler handler = new Handler();
-    Timer t = new Timer();
-    AttentionRepository ar = new AttentionRepository(getApplicationContext());
+    private TimerTask mTimerTask;
+    private final Handler handler = new Handler();
+    private Timer t = new Timer();
+    private AttentionRepository ar = new AttentionRepository(getApplicationContext());
+    private ImageButton imageButton;
+    private Button button;
+    private TextView textView;
 
-    // Change to imageButton or w/e.
-    ImageButton imageButton;
-    Button button;
-    TextView textView;
-    Date date;
-    Time time;
-
-    boolean testRunning;
-    boolean isActivated;
-    boolean isWaiting;
-    long startTime;
-    long endTime;
-    long[] reactionTime = new long[5];
-    int currentTest = 0;
+    private boolean testRunning;
+    private boolean isActivated;
+    private boolean isWaiting;
+    private long startTime;
+    private long endTime;
+    private long[] reactionTime = new long[5];
+    private int currentTest = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +42,8 @@ public class AttentionActivity extends AppCompatActivity {
         button = (Button)findViewById(R.id.attention_starttest_button);
         textView = (TextView)findViewById(R.id.textView);
         imageButton = (ImageButton)findViewById(R.id.attention_circle_imageButton);
-
         textView.setText("");
         imageButton.setVisibility(View.INVISIBLE);
-
         isActivated = false;
         isWaiting = false;
     }
@@ -98,15 +91,12 @@ public class AttentionActivity extends AppCompatActivity {
                 }
                 s = "Average Reaction Time: " + sum/reactionTime.length + "ms";
                 textView.setText(s);
-
-
-                ar.insertRecord(time.getTime(), date, (int)sum/reactionTime.length);
+                ar.insertRecord(new Date(), ((int)sum/reactionTime.length));
             }
 
         }
     }
 
-    //Insert random number gen.
     public int randomGenerator(int min, int max) {
         Random rand = new Random();
         return rand.nextInt(min) + (max-min);
@@ -127,18 +117,7 @@ public class AttentionActivity extends AppCompatActivity {
                     }
                 });
             }};
-
-        // public void schedule (TimerTask task, long delay)
         t.schedule(mTimerTask, randomGenerator(3000,7000));  //
 
-    }
-
-    // What to do when stopping the task.
-    public void stopTask(){
-        /*
-        if(mTimerTask!=null){
-
-        }
-         */
     }
 }

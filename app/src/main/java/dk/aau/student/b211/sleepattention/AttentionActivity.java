@@ -1,5 +1,7 @@
 package dk.aau.student.b211.sleepattention;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +19,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /*
-TODO: Give user score feedback based on reaction time. Eg: "Great! Your average reaction time was 320ms!" and then give user button to Exit PVT activity.
+TODO: Give user score feedback based on reaction time. Eg: "Great! Your average reaction time was 320ms!"
+
+DONE:
+and then give user button to Exit PVT activity.
  */
 
 public class AttentionActivity extends AppCompatActivity {
@@ -50,12 +55,14 @@ public class AttentionActivity extends AppCompatActivity {
         imageButton.setVisibility(View.INVISIBLE);
         isActivated = false;
         isWaiting = false;
+        testRunning = false;
     }
 
 
     public void pvtGame() {
 
         if (!isActivated && !isWaiting) {
+            button.setText(R.string.attentionactivity_button_goback);
             isWaiting = true;
             currentTest++;
             delayedActivate();
@@ -65,7 +72,11 @@ public class AttentionActivity extends AppCompatActivity {
     public void startTest(View view) {
         if (!testRunning) {
             pvtGame();
-            button.setVisibility(View.INVISIBLE);
+            button.setBackgroundColor(Color.GRAY);
+            testRunning = true;
+        } else {
+            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(i);
         }
     }
 
@@ -93,9 +104,25 @@ public class AttentionActivity extends AppCompatActivity {
                 for (int i = 0; i < reactionTime.length; i++){
                     sum += reactionTime[i];
                 }
-                s = "Average Reaction Time: " + sum/reactionTime.length + "ms";
+                int averageReactionTime = ((int)sum/reactionTime.length);
+
+                // User Feedback on reaction time.
+                if (averageReactionTime < 200) {
+                    s = "Excellent job! Your average reaction time was " + averageReactionTime + "ms!";
+                } else if (averageReactionTime >= 200 && averageReactionTime < 300) {
+                    s = "Great job! Your average reaction time was " + averageReactionTime + "ms!";
+                } else if (averageReactionTime >= 300 && averageReactionTime < 400) {
+                    s = "Well done! Your average reaction time was " + averageReactionTime + "ms!";
+                } else if (averageReactionTime >= 400 && averageReactionTime < 500) {
+                    s = "You did okay. Your average reaction time was " + averageReactionTime + "ms!";
+                } else if (averageReactionTime >= 500) {
+                    s = "Are you sure you are getting enough sleep? Your average reaction time was " + averageReactionTime + "ms!";
+                }
+
                 textView.setText(s);
-                ar.insertRecord(0, new Date(), ((int)sum/reactionTime.length));
+                button.setBackgroundColor(Color.WHITE);
+                ar.insertRecord(0, new Date(), averageReactionTime);
+
             }
 
         }

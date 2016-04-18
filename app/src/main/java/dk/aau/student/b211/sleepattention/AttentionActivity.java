@@ -120,7 +120,6 @@ public class AttentionActivity extends AppCompatActivity {
                 }
 
                 textView.setText(s);
-                button.setBackgroundColor(Color.WHITE);
                 ar.insertRecord(0, new Date(), averageReactionTime);
 
             }

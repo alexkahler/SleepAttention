@@ -67,11 +67,23 @@ public class AttentionRepository {
     }
 
     public Attention getRecord(int attentionID) {
-        return parseResults(dbHelper.getReadableDatabase().rawQuery("SELECT * FROM " + Attention.TABLE_NAME, new String[]{Integer.toString(attentionID)})).get(0);
+        List<Attention> result = parseResults(dbHelper.getReadableDatabase().rawQuery("SELECT * FROM " + Attention.TABLE_NAME, new String[]{Integer.toString(attentionID)}));
+        if (result.size() != 0)
+            return result.get(0);
+        else
+            return null;
     }
 
     public List<Attention> getAllRecords() {
         return parseResults(dbHelper.getReadableDatabase().rawQuery("SELECT * FROM " + Attention.TABLE_NAME, null));
+    }
+
+    public Attention getLatestRecord() {
+        List<Attention> result = parseResults(dbHelper.getReadableDatabase().rawQuery("SELECT * FROM " + Attention.TABLE_NAME + " ORDER BY " + Attention.KEY_ID + " DESC LIMIT 1", null));
+        if (result.size() != 0)
+            return result.get(0);
+        else
+            return null;
     }
 
     private List<Attention> parseResults(Cursor results) {
@@ -92,8 +104,6 @@ public class AttentionRepository {
                 }
             }
             while (results.moveToNext());
-        } else {
-            attentionList.add(null);
         }
         dbHelper.close();
         results.close();

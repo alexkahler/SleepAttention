@@ -17,11 +17,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.v(TAG, "We are in the receiver - yay");
 
 
-        //fetch extra Strings from intent
-        String get_your_string = intent.getExtras().getString("extra");
+        //fetch extra boolean from intent
+        boolean alarmState = intent.getExtras().getBoolean("turn alarm on");
 
 
-        Log.e(TAG, get_your_string);
+        Log.e(TAG, "Alarm state is: " + alarmState);
 
 
         //Create an Intent for the RingtoneService
@@ -29,11 +29,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         //pass the extra Strings from SleepActivity to the Ringtone Playing Service
-        service_intent.putExtra("extra", get_your_string);
+        service_intent.putExtra("turn alarm on", alarmState);
 
 
         //Start the Ringtone Service
         context.startService(service_intent);
-
     }
 }

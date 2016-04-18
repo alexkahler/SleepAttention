@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -13,22 +14,38 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class StatisticsActivity extends AppCompatActivity {
 
-
+    private List<Sleep> sleepList = new ArrayList<>();
+    private List<Attention> attentionList = new ArrayList<>();
+    private static final int MILLIS_PR_HOUR = 3600000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
+        SleepRepository sleepRepository = new SleepRepository(this);
+        AttentionRepository attentionRepository = new AttentionRepository(this);
+        sleepList = sleepRepository.getAllRecords();
+        attentionList = attentionRepository.getAllRecords();
+        if(sleepList.size() == 0 ||attentionList.size() == 0) {
+            return; //TODO: Implement more elegant solution of showing no avaiable data.
+        }
+
         CombinedChart combinedChart = (CombinedChart) findViewById(R.id.chart);
+
+        YAxis leftAxis = combinedChart.getAxisLeft();
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setAxisMinValue(0f);
+
+        YAxis rightAxis = combinedChart.getAxisRight();
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setAxisMinValue(0f);
 
         CombinedData data = new CombinedData(getXAxisValues());
         data.setData(barData());
@@ -44,69 +61,56 @@ public class StatisticsActivity extends AppCompatActivity {
 
         ArrayList<String> labels = new ArrayList<>();
 
-        SleepRepository sleepRepository = new SleepRepository(this);
-        AttentionRepository attentionRepository = new AttentionRepository(this);
-
         // creating the list of x-axis labels based on the repository with the highest number of records/entries.
-        if(sleepRepository.getAllRecords().size() <= attentionRepository.getAllRecords().size()){ //TODO: Save all records in separate ArrayLists and compare size instead. Calling getAllRecords repeatedly is not CPU friendly as it has to access the database repeatedly.
-            for(int i = 0; i < (sleepRepository.getAllRecords().size()) ; i++){
-                labels.add(sleepRepository.getRecord(i).getDate()+"");
+        if(sleepList.size() >= attentionList.size()){
+            for(Sleep s : sleepList) {
+                labels.add(s.getDate().toString());
             }
         }
-        else{
-            for(int i = 0; i < (attentionRepository.getAllRecords().size()) ; i++){ //TODO: Change to for-each loop - more memory efficient with a JIT compiler.
-                labels.add(attentionRepository.getRecord(i).getDate()+"");
-                }
+        else {
+            for (Attention a : attentionList) {
+                labels.add(a.getDate().toString());
             }
+        }
         return labels;
     }
 
     // this method is used to create data for line graph representing PVT score
-    public LineData lineData(){
+    private LineData lineData(){
         ArrayList<Entry> line = new ArrayList<>();
-        AttentionRepository ap = new AttentionRepository(this);
-        // Checks the date of the previous record to see if it's equal to this. Excluding HH:mm:ss
-        for(int i = 0; i < ap.getAllRecords().size(); i++) {
-                if ((ap.getRecord(i).getDate().toString().regionMatches(0, ap.getRecord(i - 1).getDate().toString(), 0, 10)) && (i != 0)) {
-                    ap.deleteRecord(i-1);
-//                    int updatedScore = (ap.getRecord(i).getScore() + ap.getRecord(i - 1).getScore()) / 2;
-//                    ap.getRecord(i).setScore(updatedScore);
-//                    ArrayList<Integer> sameDateScores = new ArrayList<>();
-//                    sameDateScores.add(ap.getRecord(i).getScore());
-                }
-            }
-            // add the score entries to the line graph dataset.
-        for(int j = 0; j < ap.getAllRecords().size() ; j++){
-            line.add(new Entry(ap.getRecord(j).getScore(),j));
-
+        // add the score entries to the line graph dataset.
+        int i = 0;
+        for(Attention a : attentionList) {
+            line.add(new Entry(a.getScore(), i));
+            i++;
         }
-
         LineDataSet lineDataSet = new LineDataSet(line, "PVT score");
         lineDataSet.setColor(Color.rgb(0, 0, 225));
         lineDataSet.setCircleColor(Color.rgb(0, 0, 255));
         lineDataSet.setDrawCircleHole(false);
         lineDataSet.setDrawCubic(true);
         lineDataSet.setValueTextSize(8f);
+        lineDataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
         LineData lineData = new LineData(getXAxisValues(),lineDataSet);
 
         return lineData;
 
     }
     // this method is used to create data for Bar graph representing hours slept
-    public BarData barData(){
-
+    private BarData barData(){
         ArrayList<BarEntry> sleepBar = new ArrayList<>();
-
-        SleepRepository sp = new SleepRepository(this);
-
-        for(int i = 0; i < (sp.getAllRecords().size()) ; i++){
-            float sleepDur = (float)sp.getRecord(i).getDuration();
-            sleepBar.add(new BarEntry(sleepDur,i));
+        int i = 0;
+        for(Sleep s : sleepList){
+            /*sleepBar.add(new BarEntry(
+                    TimeUnit.MILLISECONDS.toHours((long)s.getDuration()), i));*/
+            sleepBar.add(new BarEntry((float)s.getDuration() / MILLIS_PR_HOUR, i)); //Divide by 3.6 million, as that is the amount of millis pr. hour.
+            i++;
         }
 
         BarDataSet barDataSet = new BarDataSet(sleepBar, "Hours Slept");
         barDataSet.setColor(Color.rgb(0, 225, 0));
         barDataSet.setValueTextSize(8f);
+        barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         BarData barData = new BarData(getXAxisValues(),barDataSet);
 

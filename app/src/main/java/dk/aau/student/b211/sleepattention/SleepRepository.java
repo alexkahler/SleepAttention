@@ -58,9 +58,25 @@ public class SleepRepository {
      * @return
      */
     public Sleep getRecord(int sleepID) {
-        return parseResults(dbHelper.getReadableDatabase().rawQuery("SELECT * FROM " + Sleep.TABLE_NAME + " WHERE " + Sleep.KEY_ID + " = ? ",
-                new String[]{Integer.toString(sleepID)})).get(0);
+        List<Sleep> results = parseResults(dbHelper.getReadableDatabase().rawQuery("SELECT * FROM " + Sleep.TABLE_NAME + " WHERE " + Sleep.KEY_ID + " = ? ",
+                new String[]{Integer.toString(sleepID)}));
+        if(results.size() != 0) {
+            return results.get(0);
+        }
+        else {
+            return null;
+        }
 
+    }
+
+    public Sleep getLatestRecord() {
+        List<Sleep> results = parseResults(dbHelper.getReadableDatabase().rawQuery("SELECT * FROM " + Sleep.TABLE_NAME + " ORDER BY " + Sleep.KEY_ID + " DESC LIMIT 1 ", null));
+        if(results.size() != 0) {
+            return results.get(0);
+        }
+        else {
+            return null;
+        }
     }
 
     public List<Sleep> getAllRecords() {
@@ -84,9 +100,6 @@ public class SleepRepository {
                 }
             }
             while (results.moveToNext());
-        }
-        else {
-            sleepList.add(null);
         }
         dbHelper.close();
         results.close();

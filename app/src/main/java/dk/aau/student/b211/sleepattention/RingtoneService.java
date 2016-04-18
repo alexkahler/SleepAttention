@@ -16,8 +16,7 @@ import android.util.Log;
 public class RingtoneService extends Service {
 
     MediaPlayer media;
-    String message;
-    boolean isRunning;
+    boolean isRunning = false;
 
 
     @Override
@@ -26,39 +25,32 @@ public class RingtoneService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent, int flags, int alarmStart) {
 
-        Log.i("LocalService", "Receive start id" + startId + ":" + intent);
+        Log.i("RingtoneService", "Receive start id " + alarmStart + ":" + intent);
 
         //fetch the extra String Values
-        String state = intent.getExtras().getString("extra", "alarm off");
+        boolean alarmState = intent.getExtras().getBoolean("turn alarm on");
 
         // assert = If there is a "NullPointerException", then do not go through the code below
-        Log.e("Ringtone extra is", state);
+        Log.d("RingtoneService", "Alarm state is: " + alarmState);
 
         // assert state != null;
         //this converts the extra Strings from the intent to start ID's, value 0 or 1;
-        switch (state) {
-            case "alarm on":
-                startId = 1;
-                break;
-            case "alarm off":
-                startId = 0;
-                break;
-            default:
-                startId = 0;
-                break;
+        if (alarmState) {
+            alarmStart = 1;
+        } else {
+            alarmStart = 0;
         }
 
         // if else - statements to either start or stop the ringtone
-        //if there is no music playing, and the user pressed "Go to Sleep"
-        //Music should start playing.
-        if (!this.isRunning && startId == 1) {
+        //if there is not running, and the alarm should start.
+        if (!this.isRunning && alarmStart == 1) {
             //Create an Instance of the MediaPlayer and start it
             media = MediaPlayer.create(this, R.raw.ringtone);
             media.start();
             this.isRunning = true;
-            startId = 0;
+            alarmStart = 0;
             //notifications
             //set up the notifcation service
             NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -70,7 +62,7 @@ public class RingtoneService extends Service {
 
             //make the notification parameters
             Notification notification_popup = new Notification.Builder(this)
-                    .setContentTitle("Time to wake up!!!")
+                    .setContentTitle("Time to wake up!")
                     .setContentText("Press me!")
                     .setSmallIcon(icon)
                     .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000})
@@ -81,40 +73,34 @@ public class RingtoneService extends Service {
             //set up the notification call command
             notificationmanager.notify(0, notification_popup);
         }
-
-        //if there is music playing, and the user pressed "Wake up"
-        //Music should stop playing.
-        else if (this.isRunning && startId == 0) {
-            Log.e("there is no music", "and it should not play");
+        //if there is alarm running, and the user pressed "Wake up"
+        //Alarm should stop playing.
+        else if (this.isRunning && alarmStart == 0) {
+            Log.e("RingtoneService", "Stopping alarm");
             //stop the ringtone
             media.stop();
             media.reset();
             this.isRunning = false;
-            startId = 0;
         }
 
         //these are if the user presses random buttons
         //bug-preventive
 
-        //if there is no music playing, and the user pressed "Wake Up"
+        //if there is no alarm running, and the user pressed "Wake Up"
         //do nothing.
-        else if (!this.isRunning && startId == 0) {
-            Log.e("there is no music", "and it should not play");
-            this.isRunning = false;
-            startId = 0;
+        else if (!this.isRunning && alarmStart == 0) {
+            Log.d("RingtoneService", "there is no logging and it should not run");
         }
 
-        //if there is music playing, and the user pressed "Go to sleep"
+        //if there is alarm running, and the user pressed "Go to sleep"
         //do nothing.
-        else if (this.isRunning && startId == 1) {
-            Log.e("there is music", "and it should play");
-            this.isRunning = true;
-            startId = 1;
+        else if (this.isRunning && alarmStart == 1) {
+            Log.d("RingtoneService", "Logging is running and it should");
         }
 
         //catch the odd event.
         else {
-            Log.e("else", "somehow you reached this");
+            Log.e("RingtoneService", "Error happened: somehow we reached else-statement");
         }
 
         return START_NOT_STICKY;

@@ -17,6 +17,7 @@ public class RingtoneService extends Service {
 
     private MediaPlayer media;
     private boolean isRunning = false;
+    private static final String TAG = RingtoneService.class.getSimpleName();
 
 
     @Override
@@ -27,13 +28,13 @@ public class RingtoneService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int alarmStart) {
 
-        Log.i("RingtoneService", "Receive start id " + alarmStart + ":" + intent);
+        Log.i(TAG, "Receive start id " + alarmStart + ":" + intent);
 
         //fetch the extra String Values
         boolean alarmState = intent.getExtras().getBoolean("turn alarm on");
 
         // assert = If there is a "NullPointerException", then do not go through the code below
-        Log.d("RingtoneService", "Alarm state is: " + alarmState);
+        Log.d(TAG, "Alarm state is: " + alarmState);
 
         // assert state != null;
         //this converts the extra Strings from the intent to start ID's, value 0 or 1;
@@ -62,8 +63,8 @@ public class RingtoneService extends Service {
 
             //make the notification parameters
             Notification notification_popup = new Notification.Builder(this)
-                    .setContentTitle("Time to wake up!")
-                    .setContentText("Press me!")
+                    .setContentTitle(getString(R.string.ringtone_notification_title))
+                    .setContentText(getString(R.string.ringtone_notification_text))
                     .setSmallIcon(icon)
                     .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000})
                     .setContentIntent(pending_intent_sleepActivity)
@@ -76,7 +77,7 @@ public class RingtoneService extends Service {
         //if there is alarm running, and the user pressed "Wake up"
         //Alarm should stop playing.
         else if (this.isRunning && alarmStart == 0) {
-            Log.e("RingtoneService", "Stopping alarm");
+            Log.d(TAG, "Stopping alarm");
             //stop the ringtone
             media.stop();
             media.reset();
@@ -89,18 +90,18 @@ public class RingtoneService extends Service {
         //if there is no alarm running, and the user pressed "Wake Up"
         //do nothing.
         else if (!this.isRunning && alarmStart == 0) {
-            Log.d("RingtoneService", "there is no logging and it should not run");
+            Log.d(TAG, "there is no logging and it should not run");
         }
 
         //if there is alarm running, and the user pressed "Go to sleep"
         //do nothing.
         else if (this.isRunning && alarmStart == 1) {
-            Log.d("RingtoneService", "Logging is running and it should");
+            Log.d(TAG, "Logging is running and it should");
         }
 
         //catch the odd event.
         else {
-            Log.e("RingtoneService", "Error happened: somehow we reached else-statement");
+            Log.e(TAG, "Error happened: somehow we reached else-statement");
         }
 
         return START_NOT_STICKY;

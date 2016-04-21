@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="4dp"
 
         android:id="@+id/toolbar"
         android:background="@color/colorPrimary">
-
     </android.support.v7.widget.Toolbar>
 
     <Button
@@ -33,7 +33,7 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Statistics"
+        android:text="@string/home_statistics_button"
         android:id="@+id/home_statistics_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
@@ -42,7 +42,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Good morning!"
+        android:text="@string/home_default_welcome_text"
         android:id="@+id/home_welcome_text"
         android:layout_below="@+id/toolbar"
         android:padding="@dimen/activity_vertical_margin"
@@ -51,7 +51,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Start logging sleep to see your latest log here."
+        android:text="@string/home_default_last_sleep_text"
         android:id="@+id/home_last_sleep_text"
         android:layout_below="@+id/home_welcome_text"
         android:layout_alignParentStart="true"
@@ -61,7 +61,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Start logging your sleep to see your average sleep here."
+        android:text="@string/home_default_average_sleep_text"
         android:id="@+id/home_average_sleep_text"
         android:layout_below="@+id/home_last_sleep_text"
         android:layout_alignParentStart="true"
@@ -71,7 +71,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Start logging attention tests to see your score here."
+        android:text="@string/home_default_last_score_text"
         android:id="@+id/home_last_score_text"
         android:layout_below="@+id/home_average_sleep_text"
         android:layout_alignParentStart="true"

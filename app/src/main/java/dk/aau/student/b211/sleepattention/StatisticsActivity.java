@@ -50,7 +50,7 @@ public class StatisticsActivity extends AppCompatActivity {
         data.setData(barData());
         data.setData(lineData());
         combinedChart.setData(data);
-        combinedChart.setDescription("Sleep VS Attention");
+        combinedChart.setDescription(getString(R.string.statistics_chart_description));
 
 
     }
@@ -89,7 +89,7 @@ public class StatisticsActivity extends AppCompatActivity {
             line.add(new Entry(a.getScore(), i));
             i++;
         }
-        LineDataSet lineDataSet = new LineDataSet(line, "PVT score");
+        LineDataSet lineDataSet = new LineDataSet(line, getString(R.string.statistics_line_description));
         lineDataSet.setColor(Color.rgb(0, 0, 225));
         lineDataSet.setCircleColor(Color.rgb(0, 0, 255));
         lineDataSet.setDrawCircleHole(false);
@@ -115,7 +115,7 @@ public class StatisticsActivity extends AppCompatActivity {
             i++;
         }
 
-        BarDataSet barDataSet = new BarDataSet(sleepBar, "Hours Slept");
+        BarDataSet barDataSet = new BarDataSet(sleepBar, getString(R.string.statistics_bar_description));
         barDataSet.setColor(Color.rgb(0, 225, 0));
         barDataSet.setValueTextSize(8f);
         barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);

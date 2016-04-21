@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,17 +72,16 @@ public class SleepActivity extends AppCompatActivity {
                 alarmReceiverIntent.putExtra("turn alarm on", true);
                 //Create a pending Intent that delays the Intent until the specified Calendar-Time
                 pendingintent = PendingIntent.getBroadcast(SleepActivity.this, 0, alarmReceiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
                 //Set the AlarmManager
                 alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingintent);
 
                 //Show a message to user, stating time to alarm goes off.
                 long millis = alarmTime.getTimeInMillis() - currentCalendar.getTimeInMillis();
-                String message = String.format(new Locale("da", "DK"), "Alarm set to %02d:%02d:%02d from now.", //TODO: Use Strings resources for localization.
+                String time = String.format(new Locale("da", "DK"), "%02d:%02d:%02d",
                     TimeUnit.MILLISECONDS.toHours(millis),
                     TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
                     TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.sleep_alarm_set_prefix)  + time + getString(R.string.sleep_alarm_set_suffix), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -102,11 +102,11 @@ public class SleepActivity extends AppCompatActivity {
                 sleepRepository.insertRecord(duration, currentCalendar.getTime(), 0);
 
                 //Show a message to user stating time slept.
-                String message = String.format(new Locale("da", "DK"), "Logging stopped! You've slept for %02d:%02d:%02d.", //TODO: Use Strings resources for localization.
+                String time = String.format(new Locale("da", "DK"), "%02d:%02d:%02d", //TODO: Use Strings resources for localization.
                         TimeUnit.MILLISECONDS.toHours(duration),
                         TimeUnit.MILLISECONDS.toMinutes(duration) % TimeUnit.HOURS.toMinutes(1),
                         TimeUnit.MILLISECONDS.toSeconds(duration) % TimeUnit.MINUTES.toSeconds(1));
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.sleep_log_stop_prefix ) + time, Toast.LENGTH_SHORT).show();
             }
         });
     }

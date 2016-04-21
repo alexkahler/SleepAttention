@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -65,21 +64,21 @@ public class HomeActivity extends AppCompatActivity {
         TextView welcomeText = (TextView) findViewById(R.id.home_welcome_text);
         int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if (currentHour < 5)
-            welcomeText.setText("Goodnight!");
+            welcomeText.setText(getString(R.string.home_welcome_goodnight_text));
         else if (currentHour < 10)
-            welcomeText.setText("Good morning!");
+            welcomeText.setText(getString(R.string.home_welcome_morning_text));
         else if (currentHour < 14)
-            welcomeText.setText("Good day!");
+            welcomeText.setText(getString(R.string.home_welcome_good_day_text));
         else if (currentHour < 18)
-            welcomeText.setText("Good afternoon");
+            welcomeText.setText(getString(R.string.home_welcome_good_afternoon_text));
         else if (currentHour < 21)
-            welcomeText.setText("Good evening");
+            welcomeText.setText(getString(R.string.home_welcome_good_evening_text));
         else
-            welcomeText.setText("Good night");
+            welcomeText.setText(getString(R.string.home_welcome_goodnight_text));
 
         if (new SleepRepository(context).getAllRecords().size() != 0) {
             TextView lastSleep = (TextView) findViewById(R.id.home_last_sleep_text);
-            lastSleep.setText("Last sleep: " + TimeUnit.MILLISECONDS.toHours((long)(new SleepRepository(context).getLatestRecord().getDuration())) + " hours.");
+            lastSleep.setText(getString(R.string.home_last_sleep_prefix_text) + TimeUnit.MILLISECONDS.toHours((long)(new SleepRepository(context).getLatestRecord().getDuration())) + getString(R.string.home_last_sleep_suffix_text));
 
             TextView averageSleepText = (TextView) findViewById(R.id.home_average_sleep_text);
             double averageSleepTime = 0;
@@ -90,13 +89,14 @@ public class HomeActivity extends AppCompatActivity {
                 entries++;
             }
             averageSleepTime = averageSleepTime/entries;
-            averageSleepText.setText("Average time slept last " + entries + " entries: " + TimeUnit.MILLISECONDS.toHours((long)averageSleepTime)+ " hours, " +
-                    TimeUnit.MILLISECONDS.toMinutes((long)averageSleepTime) % TimeUnit.HOURS.toMinutes(1) + " minutes.");
-
+            averageSleepText.setText(getString(R.string.home_average_sleep_prefix_text) +
+                    entries + getString(R.string.home_average_sleep_affix1_text) +
+                    TimeUnit.MILLISECONDS.toHours((long)averageSleepTime) + getString(R.string.home_average_sleep_affix2_text) +
+                    TimeUnit.MILLISECONDS.toMinutes((long)averageSleepTime) % TimeUnit.HOURS.toMinutes(1) + getString(R.string.home_average_sleep_suffix_text));
         }
         if (new AttentionRepository(context).getAllRecords().size() != 0) {
             TextView lastScore = (TextView)findViewById(R.id.home_last_score_text);
-            lastScore.setText("Last test score: " + new AttentionRepository(context).getLatestRecord().getScore() + " ms.");
+            lastScore.setText(getString(R.string.home_last_score_prefix) + new AttentionRepository(context).getLatestRecord().getScore() + getString(R.string.home_last_score_suffix));
         }
     }
 
@@ -133,10 +133,5 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
     }
 }

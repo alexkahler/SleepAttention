@@ -1,7 +1,6 @@
 package dk.aau.student.b211.sleepattention;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +30,9 @@ public class AttentionActivity extends AppCompatActivity {
     private final long[] reactionTime = new long[5];
     private int currentTest = 0;
 
+    private static final int MIN_TEST_DELAY = 3000;
+    private static final int MAX_TEST_DELAY = 7000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +51,7 @@ public class AttentionActivity extends AppCompatActivity {
 
     private void pvtGame() {
         if (!isActivated && !isWaiting) {
-            button.setText(R.string.attentionactivity_button_goback);
+            button.setText(R.string.attention_goBack_button);
             isWaiting = true;
             currentTest++;
             delayedActivate();
@@ -76,9 +78,9 @@ public class AttentionActivity extends AppCompatActivity {
             String s;
             if (reactionTime[currentTest - 1] <= 100) {
                 currentTest--;
-                s = "Reaction Time: Ignored";
+                s = getString(R.string.attention_reaction_ignored_text);
             } else {
-                s = "Reaction Time: " + reactionTime[currentTest - 1] + "ms";
+                s = getString(R.string.attention_reaction_time_prefix_text) + reactionTime[currentTest - 1] + getString(R.string.attention_reaction_time_suffix_text);
             }
             textView.setText(s);
 
@@ -96,15 +98,15 @@ public class AttentionActivity extends AppCompatActivity {
 
                 // User Feedback on reaction time.
                 if (averageReactionTime < 200) {
-                    s = "Excellent job! Your average reaction time was " + averageReactionTime + "ms!";
+                    s = getString(R.string.attention_score_200_prefix) + averageReactionTime + getString(R.string.attention_score_suffix);
                 } else if (averageReactionTime >= 200 && averageReactionTime < 300) {
-                    s = "Great job! Your average reaction time was " + averageReactionTime + "ms!";
+                    s = getString(R.string.attention_score_300_prefix) + averageReactionTime + getString(R.string.attention_score_suffix);
                 } else if (averageReactionTime >= 300 && averageReactionTime < 400) {
-                    s = "Well done! Your average reaction time was " + averageReactionTime + "ms!";
+                    s = getString(R.string.attention_score_400_prefix) + averageReactionTime + getString(R.string.attention_score_suffix);
                 } else if (averageReactionTime >= 400 && averageReactionTime < 500) {
-                    s = "You did okay. Your average reaction time was " + averageReactionTime + "ms!";
+                    s = getString(R.string.attention_score_500_prefix) + averageReactionTime + getString(R.string.attention_score_suffix);
                 } else if (averageReactionTime >= 500) {
-                    s = "Are you sure you are getting enough sleep? Your average reaction time was " + averageReactionTime + "ms!";
+                    s = getString(R.string.attention_score_above500_prefix) + averageReactionTime + getString(R.string.attention_score_suffix);
                 }
 
                 textView.setText(s);
@@ -134,7 +136,7 @@ public class AttentionActivity extends AppCompatActivity {
                 });
             }
         };
-        t.schedule(mTimerTask, randomGenerator(3000,7000));  //TODO: Convert to variable constants
+        t.schedule(mTimerTask, randomGenerator(MIN_TEST_DELAY, MAX_TEST_DELAY));
 
     }
 }

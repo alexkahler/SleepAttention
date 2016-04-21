@@ -14,8 +14,9 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by alexk on 03-04-2016.
- * TODO: Remove 'time' field from Repo and Database.
+ * @author Group B211, Aalborg University
+ * Created on 03-04-2016.
+ *
  */
 class AttentionRepository {
 

@@ -13,7 +13,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Test"
+        android:text="@string/attention_start_test_text"
         android:id="@+id/attention_starttest_button"
         android:layout_gravity="center_horizontal|top"
         android:onClick="startTest"
@@ -40,7 +40,7 @@
             android:background="#00ffffff"
             android:layout_gravity="center"
             android:onClick="onClick"
-            android:contentDescription="PVT test button"/>
+            android:contentDescription="@string/attention_image_description"/>
 
     </FrameLayout>
 

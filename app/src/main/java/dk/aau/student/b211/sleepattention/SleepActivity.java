@@ -40,9 +40,11 @@ public class SleepActivity extends AppCompatActivity {
         //Create an Intent to the Receiver Class
         final Intent alarmReceiverIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmTime = Calendar.getInstance(); //Get current time to set alarm from.
-        alarmTime.clear(Calendar.SECOND);  //Sanitize seconds so alarm starts at whole minutes.
+        currentCalendar = Calendar.getInstance();
+        currentCalendar.add(Calendar.HOUR_OF_DAY, 8);
         alarmTimePicker = (TimePicker) findViewById(R.id.sleep_timepicker);
+        alarmTimePicker.setCurrentHour(currentCalendar.get(Calendar.HOUR_OF_DAY));
+        alarmTimePicker.setCurrentMinute(currentCalendar.get(Calendar.MINUTE));
         alarmTimePicker.setIs24HourView(true);
 
         // Initializing the two Buttons in activity_sleep.xml
@@ -51,7 +53,11 @@ public class SleepActivity extends AppCompatActivity {
             @TargetApi(Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
+
                 currentCalendar = Calendar.getInstance();
+
+                alarmTime = Calendar.getInstance();
+                alarmTime.clear(Calendar.SECOND);  //Sanitize seconds so alarm starts at whole minutes.
                 //Setting Calendar instance with the Hour and Minute that we have picked on the TimePicker
                 alarmTime.set(Calendar.HOUR_OF_DAY, alarmTimePicker.getCurrentHour());
                 alarmTime.set(Calendar.MINUTE, alarmTimePicker.getCurrentMinute());
@@ -77,11 +83,11 @@ public class SleepActivity extends AppCompatActivity {
 
                 //Show a message to user, stating time to alarm goes off.
                 long millis = alarmTime.getTimeInMillis() - currentCalendar.getTimeInMillis();
-                String time = String.format(new Locale("da", "DK"), "%02d:%02d:%02d",
+                String message = String.format(getString(R.string.sleep_alarm_set),
                     TimeUnit.MILLISECONDS.toHours(millis),
                     TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
                     TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
-                Toast.makeText(getApplicationContext(), getString(R.string.sleep_alarm_set_prefix)  + time + getString(R.string.sleep_alarm_set_suffix), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -102,11 +108,11 @@ public class SleepActivity extends AppCompatActivity {
                 sleepRepository.insertRecord(duration, currentCalendar.getTime(), 0);
 
                 //Show a message to user stating time slept.
-                String time = String.format(new Locale("da", "DK"), "%02d:%02d:%02d", //TODO: Use Strings resources for localization.
+                String message = String.format(getString(R.string.sleep_log_stop),
                         TimeUnit.MILLISECONDS.toHours(duration),
                         TimeUnit.MILLISECONDS.toMinutes(duration) % TimeUnit.HOURS.toMinutes(1),
                         TimeUnit.MILLISECONDS.toSeconds(duration) % TimeUnit.MINUTES.toSeconds(1));
-                Toast.makeText(getApplicationContext(), getString(R.string.sleep_log_stop_prefix ) + time, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
             }
         });
     }

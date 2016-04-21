@@ -78,7 +78,8 @@ public class HomeActivity extends AppCompatActivity {
 
         if (new SleepRepository(context).getAllRecords().size() != 0) {
             TextView lastSleep = (TextView) findViewById(R.id.home_last_sleep_text);
-            lastSleep.setText(getString(R.string.home_last_sleep_prefix_text) + TimeUnit.MILLISECONDS.toHours((long)(new SleepRepository(context).getLatestRecord().getDuration())) + getString(R.string.home_last_sleep_suffix_text));
+            lastSleep.setText(String.format(getString(R.string.home_last_sleep_text),
+                    TimeUnit.MILLISECONDS.toHours((long)(new SleepRepository(context).getLatestRecord().getDuration()))));
 
             TextView averageSleepText = (TextView) findViewById(R.id.home_average_sleep_text);
             double averageSleepTime = 0;
@@ -89,14 +90,15 @@ public class HomeActivity extends AppCompatActivity {
                 entries++;
             }
             averageSleepTime = averageSleepTime/entries;
-            averageSleepText.setText(getString(R.string.home_average_sleep_prefix_text) +
-                    entries + getString(R.string.home_average_sleep_affix1_text) +
-                    TimeUnit.MILLISECONDS.toHours((long)averageSleepTime) + getString(R.string.home_average_sleep_affix2_text) +
-                    TimeUnit.MILLISECONDS.toMinutes((long)averageSleepTime) % TimeUnit.HOURS.toMinutes(1) + getString(R.string.home_average_sleep_suffix_text));
+            averageSleepText.setText(String.format(getString(R.string.home_average_sleep_text),
+                    entries,
+                    TimeUnit.MILLISECONDS.toHours((long)averageSleepTime),
+                    TimeUnit.MILLISECONDS.toMinutes((long)averageSleepTime) % TimeUnit.HOURS.toMinutes(1)));
         }
         if (new AttentionRepository(context).getAllRecords().size() != 0) {
             TextView lastScore = (TextView)findViewById(R.id.home_last_score_text);
-            lastScore.setText(getString(R.string.home_last_score_prefix) + new AttentionRepository(context).getLatestRecord().getScore() + getString(R.string.home_last_score_suffix));
+            lastScore.setText(String.format(getString(R.string.home_last_score),
+                    new AttentionRepository(context).getLatestRecord().getScore()));
         }
     }
 

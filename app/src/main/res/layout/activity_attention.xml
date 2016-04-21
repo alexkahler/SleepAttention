@@ -16,7 +16,6 @@
         android:text="@string/attention_start_test_text"
         android:id="@+id/attention_starttest_button"
         android:layout_gravity="center_horizontal|top"
-        android:onClick="startTest"
         android:visibility="visible"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

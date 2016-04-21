@@ -9,14 +9,9 @@
     <string name="home_welcome_good_day_text">Good day!</string>
     <string name="home_welcome_good_afternoon_text">Good afternoon</string>
     <string name="home_welcome_good_evening_text">Good evening</string>
-    <string name="home_last_sleep_prefix_text">Last sleep: </string>
-    <string name="home_last_sleep_suffix_text"> hours.</string>
-    <string name="home_average_sleep_prefix_text">Average time slept last </string>
-    <string name="home_average_sleep_affix1_text"> entries: </string>
-    <string name="home_average_sleep_affix2_text"> hours, </string>
-    <string name="home_average_sleep_suffix_text"> minutes.</string>
-    <string name="home_last_score_prefix">Last test score: </string>
-    <string name="home_last_score_suffix"> ms.</string>
+    <string name="home_last_sleep_text">Last sleep: %1$d</string>
+    <string name="home_average_sleep_text">Average time slept last %1$d entries: %2$d hours, %3$d minutes.</string>
+    <string name="home_last_score">Last test score: %1$d </string>
     <!-- activity home layout Strings -->
     <string name="home_sleep_button">Sleep</string>
     <string name="home_attention_button">Attention Test</string>
@@ -25,7 +20,7 @@
     <string name="home_default_last_sleep_text">Start logging sleep to see your latest log here.</string>
     <string name="home_default_average_sleep_text">Start logging your sleep to see your average sleep here.</string>
     <string name="home_default_last_score_text">Start logging attention tests to see your score here.</string>
-    <!-- acitivty home menu Strings -->
+    <!-- activity home menu Strings -->
     <string name="home_menu_settings">Settings</string>
     <string name="home_menu_feedback">Feedback</string>
 
@@ -33,14 +28,12 @@
     <!-- AttentionActivity Strings -->
     <string name="attention_reaction_ignored_text">Reaction Time: Ignored</string>
     <string name="attention_goBack_button">Go Back</string>
-    <string name="attention_reaction_time_prefix_text">Reaction Time: </string>
-    <string name="attention_reaction_time_suffix_text"> ms.</string>
-    <string name="attention_score_200_prefix">Excellent job! Your average reaction time was </string>
-    <string name="attention_score_300_prefix">Great job! Your average reaction time was </string>
-    <string name="attention_score_400_prefix">Well done! Your average reaction time was </string>
-    <string name="attention_score_500_prefix">You did okay. Your average reaction time was </string>
-    <string name="attention_score_above500_prefix">Are you sure you are getting enough sleep? Your average reaction time was </string>
-    <string name="attention_score_suffix"> ms!</string>
+    <string name="attention_reaction_time_text">Reaction Time: %1$d ms.</string>
+    <string name="attention_score_200">Excellent job! Your average reaction time was %1$d ms!</string>
+    <string name="attention_score_300">Great job! Your average reaction time was %1$d ms!</string>
+    <string name="attention_score_400">Well done! Your average reaction time was %1$d ms!</string>
+    <string name="attention_score_500">You did okay. Your average reaction time was %1$d ms!</string>
+    <string name="attention_score_above500">Are you sure you are getting enough sleep? Your average reaction time was %1$d ms!</string>
     <!-- activity attention layout Strings -->
     <string name="attention_start_test_text">Start Test</string>
     <string name="attention_image_description">PVT test button</string>
@@ -50,9 +43,8 @@
     <string name="ringtone_notification_text">Press me!</string>
 
     <!-- SleepActivity strings -->
-    <string name="sleep_alarm_set_prefix">Alarm set to </string>
-    <string name="sleep_alarm_set_suffix"> from now</string>
-    <string name="sleep_log_stop_prefix">Logging stopped! You've slept for </string>
+    <string name="sleep_alarm_set">Alarm set to %1$02d:%2$02d:%3$02d from now.</string>
+    <string name="sleep_log_stop">Logging stopped! You\'ve slept for %1$02d:%2$02d:%3$02d.</string>
     <!-- activity sleep layout Strings -->
     <string name="sleep_go_to_sleep_button">Go to bed</string>
     <string name="sleep_wake_up_button">Wake Up!</string>

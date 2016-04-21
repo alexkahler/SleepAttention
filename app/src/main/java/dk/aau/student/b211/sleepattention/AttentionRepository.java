@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.test.ActivityTestCase;
 import android.util.Log;
 
 import java.text.ParseException;
@@ -16,25 +15,24 @@ import java.util.Locale;
 
 /**
  * Created by alexk on 03-04-2016.
+ * TODO: Remove 'time' field from Repo and Database.
  */
-public class AttentionRepository {
+class AttentionRepository {
 
-    private DatabaseHelper dbHelper;
-    private List<Attention> attentionList;
+    private final DatabaseHelper dbHelper;
     private static final String TAG = AttentionRepository.class.getSimpleName();
 
     public AttentionRepository(Context context) {
         dbHelper = DatabaseHelper.getInstance(context);
     }
 
-    public boolean updateRecord(int attentionID, double time, @NonNull Date date, int score) {
+    public boolean updateRecord(int attentionID, @NonNull Date date, int score) {
         if (attentionID <= -1) {
             return false;
         }
         ContentValues cv = new ContentValues();
         cv.put(Attention.KEY_ID, attentionID);
         cv.put(Attention.KEY_SCORE, score);
-        cv.put(Attention.KEY_TIME, time);
         cv.put(Attention.KEY_DATE, new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", new Locale("da", "DK")).format(date));
         if (dbHelper.getWritableDatabase().update(Attention.TABLE_NAME, cv, Attention.KEY_ID + " = ? ", new String[]{attentionID + ""}) >= -1) {
             dbHelper.close();
@@ -53,9 +51,8 @@ public class AttentionRepository {
         return false;
     }
 
-    public boolean insertRecord(double time, @NonNull Date date, int score) {
+    public boolean insertRecord(@NonNull Date date, int score) {
         ContentValues cv = new ContentValues();
-        cv.put(Attention.KEY_TIME, time);
         cv.put(Attention.KEY_SCORE, score);
         cv.put(Attention.KEY_DATE, new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", new Locale("da", "DK")).format(date));
         if(dbHelper.getWritableDatabase().insert(Attention.TABLE_NAME, null, cv) == -1) {
@@ -93,7 +90,6 @@ public class AttentionRepository {
                 try {
                     Attention a = new Attention(
                             results.getInt(results.getColumnIndex(Attention.KEY_ID)),
-                            results.getDouble(results.getColumnIndex(Attention.KEY_TIME)),
                             new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", new Locale("da", "DK"))
                                     .parse(results.getString(results.getColumnIndex(Attention.KEY_DATE))),
                             results.getInt(results.getColumnIndex(Attention.KEY_SCORE)));

@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * @author Group B211, Aalborg University
  */
-public class Sleep {
+class Sleep {
 
     /**
      *
@@ -19,7 +19,7 @@ public class Sleep {
      *
      * @param duration
      */
-    public void setDuration(double duration) {
+    private void setDuration(double duration) {
         this.duration = duration;
     }
 
@@ -35,7 +35,7 @@ public class Sleep {
      *
      * @param date
      */
-    public void setDate(Date date) {
+    private void setDate(Date date) {
         this.date = date;
     }
 
@@ -51,7 +51,7 @@ public class Sleep {
      * Set the quality of the sleep.
      * @param quality quality as an int - max 10.
      */
-    public void setQuality(int quality) {
+    private void setQuality(int quality) {
         this.quality = quality;
     }
 
@@ -59,7 +59,7 @@ public class Sleep {
         return id;
     }
 
-    public void setID(int id) {
+    private void setID(int id) {
         this.id = id;
     }
 

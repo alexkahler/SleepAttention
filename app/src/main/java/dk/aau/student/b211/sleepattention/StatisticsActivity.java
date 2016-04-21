@@ -16,7 +16,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -34,7 +33,7 @@ public class StatisticsActivity extends AppCompatActivity {
         sleepList = sleepRepository.getAllRecords();
         attentionList = attentionRepository.getAllRecords();
         if(sleepList.size() == 0 ||attentionList.size() == 0) {
-            return; //TODO: Implement more elegant solution of showing no avaiable data.
+            return; //TODO: Implement more elegant solution of showing no available data.
         }
 
         CombinedChart combinedChart = (CombinedChart) findViewById(R.id.chart);
@@ -55,8 +54,11 @@ public class StatisticsActivity extends AppCompatActivity {
 
 
     }
-    // creating list of x-axis labels to show the date of the entry.
 
+    /**
+     *
+     * @return
+     */
     private ArrayList<String> getXAxisValues() {
 
         ArrayList<String> labels = new ArrayList<>();
@@ -75,7 +77,10 @@ public class StatisticsActivity extends AppCompatActivity {
         return labels;
     }
 
-    // this method is used to create data for line graph representing PVT score
+    /**
+     *
+     * @return
+     */
     private LineData lineData(){
         ArrayList<Entry> line = new ArrayList<>();
         // add the score entries to the line graph dataset.
@@ -91,12 +96,15 @@ public class StatisticsActivity extends AppCompatActivity {
         lineDataSet.setDrawCubic(true);
         lineDataSet.setValueTextSize(8f);
         lineDataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        LineData lineData = new LineData(getXAxisValues(),lineDataSet);
 
-        return lineData;
+        return new LineData(getXAxisValues(),lineDataSet);
 
     }
-    // this method is used to create data for Bar graph representing hours slept
+
+    /**
+     *
+     * @return
+     */
     private BarData barData(){
         ArrayList<BarEntry> sleepBar = new ArrayList<>();
         int i = 0;
@@ -112,9 +120,7 @@ public class StatisticsActivity extends AppCompatActivity {
         barDataSet.setValueTextSize(8f);
         barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
 
-        BarData barData = new BarData(getXAxisValues(),barDataSet);
-
-        return barData;
+        return new BarData(getXAxisValues(),barDataSet);
 
     }
 }

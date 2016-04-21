@@ -1,11 +1,12 @@
 package dk.aau.student.b211.sleepattention;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 public class HomeActivity extends AppCompatActivity {
 
     private Context context;
-    private Button sleepButton, attentionButton, statisticsButton;
     private static final String TAG = HomeActivity.class.getSimpleName();
 
     @Override
@@ -34,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void findViews() {
-        sleepButton = (Button) findViewById(R.id.home_sleep_button);
+        Button sleepButton = (Button) findViewById(R.id.home_sleep_button);
         sleepButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        attentionButton = (Button) findViewById(R.id.home_attention_button);
+        Button attentionButton = (Button) findViewById(R.id.home_attention_button);
         attentionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        statisticsButton = (Button) findViewById(R.id.home_statistics_button);
+        Button statisticsButton = (Button) findViewById(R.id.home_statistics_button);
         statisticsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +118,25 @@ public class HomeActivity extends AppCompatActivity {
             return true;
             */
         }
+        if (id == R.id.action_feedback) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("message/rfc822");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"akahle15@student.aau.dk"});
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback for SleepAttention");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Uri uri = Uri.fromFile(getApplicationContext().getDatabasePath(DatabaseHelper.DATABASE_NAME));
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            try {
+                startActivityForResult(Intent.createChooser(intent, "Send some feedback..."), 1);
+            } catch(ActivityNotFoundException e) {
+                Toast.makeText(context, "No email client installed", Toast.LENGTH_SHORT).show();
+            }
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
     }
 }

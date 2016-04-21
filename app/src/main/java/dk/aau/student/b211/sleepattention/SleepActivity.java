@@ -7,30 +7,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class SleepActivity extends AppCompatActivity {
 
 
-    private AlarmManager alarmmanager;
-    private TimePicker alarmtimepicker;
+    private AlarmManager alarmManager;
+    private TimePicker alarmTimePicker;
     private PendingIntent pendingintent;
     private SleepRepository sleepRepository;
     private Calendar currentCalendar, alarmTime;
@@ -45,11 +38,11 @@ public class SleepActivity extends AppCompatActivity {
         sleepRepository = new SleepRepository(getApplicationContext());
         //Create an Intent to the Receiver Class
         final Intent alarmReceiverIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
-        alarmmanager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmTime = Calendar.getInstance(); //Get current time to set alarm from.
         alarmTime.clear(Calendar.SECOND);  //Sanitize seconds so alarm starts at whole minutes.
-        alarmtimepicker = (TimePicker) findViewById(R.id.sleep_timepicker);
-        alarmtimepicker.setIs24HourView(true);
+        alarmTimePicker = (TimePicker) findViewById(R.id.sleep_timepicker);
+        alarmTimePicker.setIs24HourView(true);
 
         // Initializing the two Buttons in activity_sleep.xml
         Button startSleep = (Button) findViewById(R.id.sleep_startlog_button);
@@ -59,14 +52,14 @@ public class SleepActivity extends AppCompatActivity {
             public void onClick(View v) {
                 currentCalendar = Calendar.getInstance();
                 //Setting Calendar instance with the Hour and Minute that we have picked on the TimePicker
-                alarmTime.set(Calendar.HOUR_OF_DAY, alarmtimepicker.getCurrentHour());
-                alarmTime.set(Calendar.MINUTE, alarmtimepicker.getCurrentMinute());
+                alarmTime.set(Calendar.HOUR_OF_DAY, alarmTimePicker.getCurrentHour());
+                alarmTime.set(Calendar.MINUTE, alarmTimePicker.getCurrentMinute());
                 if(alarmTime.before(currentCalendar)) { //In case that the alarm has been set for the next day.
                     alarmTime.add(Calendar.HOUR_OF_DAY, 24);
                 }
 
-                Log.d(".getCurrentHour()", "value of alarmtimepicker.getCurrentHour()=" + alarmtimepicker.getCurrentHour());
-                Log.d(".getCurrentMinute()", "value of alarmtimepicker.getCurrentMinute()=" + alarmtimepicker.getCurrentMinute());
+                Log.d(".getCurrentHour()", "value of alarmTimePicker.getCurrentHour()=" + alarmTimePicker.getCurrentHour());
+                Log.d(".getCurrentMinute()", "value of alarmTimePicker.getCurrentMinute()=" + alarmTimePicker.getCurrentMinute());
 
                 SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor preferencesEditor = sharedPreferences.edit();
@@ -80,7 +73,7 @@ public class SleepActivity extends AppCompatActivity {
                 pendingintent = PendingIntent.getBroadcast(SleepActivity.this, 0, alarmReceiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 //Set the AlarmManager
-                alarmmanager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingintent);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), pendingintent);
 
                 //Show a message to user, stating time to alarm goes off.
                 long millis = alarmTime.getTimeInMillis() - currentCalendar.getTimeInMillis();
@@ -101,7 +94,7 @@ public class SleepActivity extends AppCompatActivity {
                 alarmReceiverIntent.putExtra("turn alarm on", false);
                 //Stop the Ringtone
                 sendBroadcast(alarmReceiverIntent);
-                alarmmanager.cancel(pendingintent);
+                alarmManager.cancel(pendingintent);
 
                 currentCalendar = Calendar.getInstance();
                 long endTime = currentCalendar.getTimeInMillis();

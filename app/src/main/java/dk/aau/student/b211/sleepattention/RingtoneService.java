@@ -15,8 +15,8 @@ import android.util.Log;
  */
 public class RingtoneService extends Service {
 
-    MediaPlayer media;
-    boolean isRunning = false;
+    private MediaPlayer media;
+    private boolean isRunning = false;
 
 
     @Override
@@ -52,12 +52,12 @@ public class RingtoneService extends Service {
             this.isRunning = true;
             alarmStart = 0;
             //notifications
-            //set up the notifcation service
+            //set up the notification service
             NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
             //set up an Intent that goes to the SleepActivity
             Intent sleep_activity = new Intent(this.getApplicationContext(), SleepActivity.class);
-            PendingIntent pending_intent_sleepactivity = PendingIntent.getActivity(this, 0, sleep_activity, 0);
+            PendingIntent pending_intent_sleepActivity = PendingIntent.getActivity(this, 0, sleep_activity, 0);
             int icon = android.R.drawable.ic_popup_reminder;
 
             //make the notification parameters
@@ -66,7 +66,7 @@ public class RingtoneService extends Service {
                     .setContentText("Press me!")
                     .setSmallIcon(icon)
                     .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000})
-                    .setContentIntent(pending_intent_sleepactivity)
+                    .setContentIntent(pending_intent_sleepActivity)
                     .setAutoCancel(true)
                     .build();
 

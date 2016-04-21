@@ -3,7 +3,6 @@ package dk.aau.student.b211.sleepattention;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,25 +10,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.sql.Time;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/*
-TODO: Give user score feedback based on reaction time. Eg: "Great! Your average reaction time was 320ms!"
-
-DONE:
-and then give user button to Exit PVT activity.
- */
-
 public class AttentionActivity extends AppCompatActivity {
 
-    private TimerTask mTimerTask;
     private final Handler handler = new Handler();
-    private Timer t = new Timer();
+    private final Timer t = new Timer();
     private AttentionRepository ar;
     private ImageButton imageButton;
     private Button button;
@@ -39,8 +28,7 @@ public class AttentionActivity extends AppCompatActivity {
     private boolean isActivated;
     private boolean isWaiting;
     private long startTime;
-    private long endTime;
-    private long[] reactionTime = new long[5];
+    private final long[] reactionTime = new long[5];
     private int currentTest = 0;
 
     @Override
@@ -59,8 +47,7 @@ public class AttentionActivity extends AppCompatActivity {
     }
 
 
-    public void pvtGame() {
-
+    private void pvtGame() {
         if (!isActivated && !isWaiting) {
             button.setText(R.string.attentionactivity_button_goback);
             isWaiting = true;
@@ -69,10 +56,10 @@ public class AttentionActivity extends AppCompatActivity {
         }
     }
 
-    public void startTest(View view) {
+    private void startTest(View view) {
         if (!testRunning) {
             pvtGame();
-            button.setBackgroundColor(Color.GRAY);
+            //button.setBackgroundColor(Color.GRAY);
             testRunning = true;
         } else {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
@@ -80,10 +67,10 @@ public class AttentionActivity extends AppCompatActivity {
         }
     }
 
-    public void onClick(View view) {
+    public void onClick(View view) { //TODO: Make user feedback for starting test eg. "Get ready".
         if (isActivated) {
             imageButton.setVisibility(View.INVISIBLE);
-            endTime = System.currentTimeMillis();
+            long endTime = System.currentTimeMillis();
             reactionTime[currentTest - 1] = endTime - startTime;
             textView.setVisibility(View.VISIBLE);
             String s;
@@ -97,12 +84,13 @@ public class AttentionActivity extends AppCompatActivity {
 
             isWaiting = false;
             isActivated = false;
+
             if (currentTest < reactionTime.length) {
                 pvtGame();
             } else {
                 long sum = 0;
-                for (int i = 0; i < reactionTime.length; i++){
-                    sum += reactionTime[i];
+                for (long aReactionTime : reactionTime) {
+                    sum += aReactionTime;
                 }
                 int averageReactionTime = ((int)sum/reactionTime.length);
 
@@ -120,21 +108,19 @@ public class AttentionActivity extends AppCompatActivity {
                 }
 
                 textView.setText(s);
-                ar.insertRecord(0, new Date(), averageReactionTime);
-
+                ar.insertRecord(new Date(), averageReactionTime);
             }
-
         }
     }
 
-    public int randomGenerator(int min, int max) {
+    private int randomGenerator(int min, int max) {
         Random rand = new Random();
         return rand.nextInt(min) + (max-min);
     }
 
-    public void delayedActivate(){
+    private void delayedActivate(){
 
-        mTimerTask = new TimerTask() {
+        TimerTask mTimerTask = new TimerTask() {
             public void run() {
                 handler.post(new Runnable() {
                     public void run() {
@@ -146,8 +132,9 @@ public class AttentionActivity extends AppCompatActivity {
                         isActivated = true;
                     }
                 });
-            }};
-        t.schedule(mTimerTask, randomGenerator(3000,7000));  //
+            }
+        };
+        t.schedule(mTimerTask, randomGenerator(3000,7000));  //TODO: Convert to variable constants
 
     }
 }

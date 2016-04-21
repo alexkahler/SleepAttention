@@ -11,11 +11,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by alexk on 03-04-2016.
+ * @author Group B211, Aalborg University
+ * Created on 03-04-2016.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "SleepAttention.db";
+    public static final String DATABASE_NAME = "SleepAttention.db";
     private static final String TAG = DatabaseHelper.class.getSimpleName();
     private static final int DATABASE_VERSION = 1;
     private static DatabaseHelper instance;

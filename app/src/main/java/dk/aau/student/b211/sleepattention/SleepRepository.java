@@ -13,17 +13,16 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by alexk on 03-04-2016.
+ * Created by Group B211, Aalborg University on 03-04-2016.
+ * TODO: Remove 'quality' from database
  */
-public class SleepRepository {
+class SleepRepository {
 
-    private DatabaseHelper dbHelper;
-    private List<Sleep> sleepList;
+    private final DatabaseHelper dbHelper;
     private static final String TAG = SleepRepository.class.getSimpleName();
 
     public SleepRepository(Context context) {
         dbHelper = DatabaseHelper.getInstance(context);
-        sleepList = new ArrayList<>();
     }
 
     public boolean insertRecord(double duration, Date date, int quality) {

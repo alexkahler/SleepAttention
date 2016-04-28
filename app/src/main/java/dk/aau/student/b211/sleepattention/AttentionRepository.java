@@ -36,19 +36,19 @@ class AttentionRepository {
         cv.put(Attention.KEY_SCORE, score);
         cv.put(Attention.KEY_DATE, new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", new Locale("da", "DK")).format(date));
         if (dbHelper.getWritableDatabase().update(Attention.TABLE_NAME, cv, Attention.KEY_ID + " = ? ", new String[]{attentionID + ""}) >= -1) {
-            dbHelper.close();
+            dbHelper.closeDB();
             return true;
         }
-        dbHelper.close();
+        dbHelper.closeDB();
         return false;
     }
 
     public boolean deleteRecord(int attentionID) {
         if(dbHelper.getWritableDatabase().delete(Attention.TABLE_NAME, Attention.KEY_ID + " = ? ", new String[]{Integer.toString(attentionID)}) >= 1) {
-            dbHelper.close();
+            dbHelper.closeDB();
             return true;
         }
-        dbHelper.close();
+        dbHelper.closeDB();
         return false;
     }
 
@@ -57,10 +57,10 @@ class AttentionRepository {
         cv.put(Attention.KEY_SCORE, score);
         cv.put(Attention.KEY_DATE, new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", new Locale("da", "DK")).format(date));
         if(dbHelper.getWritableDatabase().insert(Attention.TABLE_NAME, null, cv) == -1) {
-            dbHelper.close();
+            dbHelper.closeDB();
             return false;
         }
-        dbHelper.close();
+        dbHelper.closeDB();
         return true;
     }
 
@@ -102,7 +102,7 @@ class AttentionRepository {
             }
             while (results.moveToNext());
         }
-        dbHelper.close();
+        dbHelper.closeDB();
         results.close();
         return attentionList;
     }

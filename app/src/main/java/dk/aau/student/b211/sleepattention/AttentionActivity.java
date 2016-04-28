@@ -41,7 +41,7 @@ public class AttentionActivity extends AppCompatActivity {
         ar = new AttentionRepository(getApplicationContext());
         textView = (TextView)findViewById(R.id.textView);
         imageButton = (ImageButton)findViewById(R.id.attention_circle_imageButton);
-        textView.setText("");
+        textView.setText(getString(R.string.attention_textview_default));
         imageButton.setVisibility(View.INVISIBLE);
         isActivated = false;
         isWaiting = false;
@@ -67,8 +67,8 @@ public class AttentionActivity extends AppCompatActivity {
 
     private void startTest() {
         if (!testRunning) {
+            textView.setText(getString(R.string.attention_get_ready_text));
             pvtGame();
-            startTestButton.setBackgroundColor(Color.GRAY);
             testRunning = true;
         } else {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
@@ -86,7 +86,8 @@ public class AttentionActivity extends AppCompatActivity {
             if (reactionTime[currentTest - 1] <= 100) {
                 currentTest--;
                 s = getString(R.string.attention_reaction_ignored_text);
-            } else {
+            }
+            else {
                 s = String.format(getString(R.string.attention_reaction_time_text), reactionTime[currentTest - 1]);
             }
             textView.setText(s);
@@ -96,7 +97,8 @@ public class AttentionActivity extends AppCompatActivity {
 
             if (currentTest < reactionTime.length) {
                 pvtGame();
-            } else {
+            }
+            else {
                 long sum = 0;
                 for (long aReactionTime : reactionTime) {
                     sum += aReactionTime;
@@ -133,7 +135,6 @@ public class AttentionActivity extends AppCompatActivity {
             public void run() {
                 handler.post(new Runnable() {
                     public void run() {
-                        // Insert what the task should do.
                         textView.setVisibility(View.INVISIBLE);
                         imageButton.setVisibility(View.VISIBLE);
 
@@ -144,6 +145,5 @@ public class AttentionActivity extends AppCompatActivity {
             }
         };
         t.schedule(mTimerTask, randomGenerator(MIN_TEST_DELAY, MAX_TEST_DELAY));
-
     }
 }

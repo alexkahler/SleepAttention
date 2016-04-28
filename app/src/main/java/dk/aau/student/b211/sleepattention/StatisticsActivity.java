@@ -28,11 +28,25 @@ public class StatisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
-        SleepRepository sleepRepository = new SleepRepository(this);
-        AttentionRepository attentionRepository = new AttentionRepository(this);
-        sleepList = sleepRepository.getAllRecords();
-        attentionList = attentionRepository.getAllRecords();
-        if(sleepList.size() == 0 ||attentionList.size() == 0) {
+        final SleepRepository sleepRepository = new SleepRepository(this);
+        final AttentionRepository attentionRepository = new AttentionRepository(this);
+        Thread getRecordsThread = new Thread(){
+            @Override
+            public void run() {
+                sleepList = sleepRepository.getAllRecords();
+                attentionList = attentionRepository.getAllRecords();
+
+            }
+        };
+        getRecordsThread.setName("Get all records thread");
+        getRecordsThread.start();
+
+        try {
+            getRecordsThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(sleepList.size() == 0 || attentionList.size() == 0) {
             return; //TODO: Implement more elegant solution of showing no available data.
         }
 

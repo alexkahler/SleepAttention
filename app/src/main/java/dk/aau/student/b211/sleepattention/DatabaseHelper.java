@@ -42,6 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        //For upgrading databases.
         if (newVersion > oldVersion) {
             switch (oldVersion) {
                 case 1: {
@@ -83,6 +84,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch(SQLException e) {
             Log.e(TAG, "Wrong SQL file mate: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public synchronized SQLiteDatabase getWritableDatabase() {
+        return super.getWritableDatabase();
+    }
+
+    @Override
+    public synchronized SQLiteDatabase getReadableDatabase() {
+        return super.getReadableDatabase();
+    }
+
+    public void closeDB() {
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null && db.isOpen()) {
+            //db.close(); //This causes crash when app is repeatedly opened. TODO: Find other way of cleaning up in Db connections.
         }
     }
 }

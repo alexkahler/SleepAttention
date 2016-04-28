@@ -3,6 +3,7 @@ package dk.aau.student.b211.sleepattention;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.text.ParseException;
@@ -35,19 +36,19 @@ class SleepRepository {
         cv.put(Sleep.KEY_QUALITY, quality);
 
         if(dbHelper.getWritableDatabase().insert(Sleep.TABLE_NAME, null, cv) == -1) {
-            dbHelper.close();
+            dbHelper.closeDB();
             return false;
         }
-        dbHelper.close();
+        dbHelper.closeDB();
         return true;
     }
 
     public boolean deleteRecord(int sleepID) {
         if (dbHelper.getWritableDatabase().delete(Sleep.TABLE_NAME, Sleep.KEY_ID + " = ?", new String[]{Integer.toString(sleepID)}) >= 1) {
-            dbHelper.close();
+            dbHelper.closeDB();
             return true;
         }
-        dbHelper.close();
+        dbHelper.closeDB();
         return false;
     }
 
@@ -70,12 +71,10 @@ class SleepRepository {
 
     public Sleep getLatestRecord() {
         List<Sleep> results = parseResults(dbHelper.getReadableDatabase().rawQuery("SELECT * FROM " + Sleep.TABLE_NAME + " ORDER BY " + Sleep.KEY_ID + " DESC LIMIT 1 ", null));
-        if(results.size() != 0) {
+        if(results.size() != 0)
             return results.get(0);
-        }
-        else {
+        else
             return null;
-        }
     }
 
     public List<Sleep> getAllRecords() {
@@ -100,7 +99,7 @@ class SleepRepository {
             }
             while (results.moveToNext());
         }
-        dbHelper.close();
+        dbHelper.closeDB();
         results.close();
         return sleepList;
     }

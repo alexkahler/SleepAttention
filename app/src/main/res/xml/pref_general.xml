@@ -1,0 +1,28 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <ListPreference
+        android:defaultValue="15"
+        android:entries="@array/preferences_timer_list_titles"
+        android:entryValues="@array/preferences_sleep_list_values"
+        android:key="@string/preferences_time_to_sleep_key"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/preferences_title_sleep_timer"
+        android:summary="@string/preferences_title_sleep_timer_summary"/>
+
+    <PreferenceCategory
+        android:title="Notification Settings">
+        <CheckBoxPreference
+            android:title="Enable Notifications"
+            android:key="@string/preferences_notifications_enabled_key"
+            android:defaultValue="false" />
+        <dk.aau.student.b211.sleepattention.TimePreference
+            android:dependency="@string/preferences_notifications_enabled_key"
+            android:key="@string/preferences_notification_time_key"
+            android:title="Notification Time"
+            android:dialogTitle="Select a time" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

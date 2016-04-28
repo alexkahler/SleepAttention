@@ -12,6 +12,11 @@
     <string name="home_last_sleep_text">Last sleep: %1$d</string>
     <string name="home_average_sleep_text">Average time slept last %1$d entries: %2$d hours, %3$d minutes.</string>
     <string name="home_last_score">Last test score: %1$d </string>
+    <string name="home_error_writing_external">Error: Can\'t write to external - please contact us.</string>
+    <string name="home_error_permissions">We need permission to attach the database :(</string>
+    <string name="home_choose_intent_resolver">Choose an email client&#8230;</string>
+    <string name="home_error_no_email_client">No email client installed.</string>
+    <string name="home_error_no_database">No database to send. Please take a some tests first.</string>
     <!-- activity home layout Strings -->
     <string name="home_sleep_button">Sleep</string>
     <string name="home_attention_button">Attention Test</string>
@@ -26,7 +31,10 @@
 
 
     <!-- AttentionActivity Strings -->
+    <string name="attention_title">Attention Test</string>
+    <string name="attention_textview_default">Please sit in a quiet area where you can concentrate on this test without disturbances for at least 1 minute.</string>
     <string name="attention_reaction_ignored_text">Reaction Time: Ignored</string>
+    <string name="attention_get_ready_text">Get ready!</string>
     <string name="attention_goBack_button">Go Back</string>
     <string name="attention_reaction_time_text">Reaction Time: %1$d ms.</string>
     <string name="attention_score_200">Excellent job! Your average reaction time was %1$d ms!</string>
@@ -38,20 +46,67 @@
     <string name="attention_start_test_text">Start Test</string>
     <string name="attention_image_description">PVT test button</string>
 
+
     <!-- RingtoneService Strings -->
     <string name="ringtone_notification_title">Time to wake up!</string>
     <string name="ringtone_notification_text">Press me!</string>
 
+
+    <!-- NotificationService Strings -->
+    <string name="notification_reminder_title">Remember to take your test!</string>
+    <string name="notification_reminder_text">Press me!</string>
+
+
     <!-- SleepActivity strings -->
+    <string name="sleep_title">Sleep Logging</string>
     <string name="sleep_alarm_set">Alarm set to %1$02d:%2$02d:%3$02d from now.</string>
     <string name="sleep_log_stop">Logging stopped! You\'ve slept for %1$02d:%2$02d:%3$02d.</string>
+    <string name="sleep_negative_sleep">Not enough time passed for logging this sleep.</string>
     <!-- activity sleep layout Strings -->
     <string name="sleep_go_to_sleep_button">Go to bed</string>
     <string name="sleep_wake_up_button">Wake Up!</string>
 
     <!-- StatisticsActivity Strings -->
+    <string name="statistics_title">Statistics</string>
     <string name="statistics_chart_description">Sleep vs. Attention</string>
     <string name="statistics_line_description">PVT Score</string>
     <string name="statistics_bar_description">Hours Slept</string>
+    <string name="settings_title">Settings</string>
 
+
+    <!-- General settings -->
+    <string name="preferences_title_sleep_timer">Time to fall asleep</string>
+    <string name="preferences_title_sleep_timer_summary">The amount of time before sleep logging begins, after pressing "Sleep Now"</string>
+    <string-array name="preferences_timer_list_titles">
+        <item>Immediately</item>
+        <item>5 Minutes</item>
+        <item>10 Minutes</item>
+        <item>15 Minutes</item>
+        <item>30 minutes</item>
+        <item>1 Hour</item>
+    </string-array>
+    <string-array name="preferences_sleep_list_values">
+        <item>0</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+    </string-array>
+    <!-- SharedPreferences Strings -->
+    <string name="preferences_notifications_enabled_key">dk.aau.student.b211.sleepattention.notifications_enabled</string>
+    <string name="preferences_notification_time_key">dk.aau.student.b211.sleepattention.pvt_notification_time</string>
+    <string name="preferences_time_to_sleep_key">dk.aau.student.b211.sleepattention.time_to_sleep</string>
+    <string name="misc_sleep_time_key">dk.aau.student.b211.sleepattention.start_time</string>
+    <string name="misc_alarm_time_key">dk.aau.student.b211.sleepattention.alarm_time</string>
+    <string name="misc_is_alarm_on_key">dk.aau.student.b211.sleepattention.is_alarm_on</string>
+
+
+    <!-- Utility Strings -->
+    <string name="dialog_negative">Cancel</string>
+    <string name="dialog_positive">Accept</string>
+
+    <!-- Action Strings -->
+    <string name="ACTION_SET_ALARM">dk.aau.student.b211.sleepattention.SET_ALARM</string>
+    <string name="ACTION_SET_NOTIFICATIONS">dk.aau.student.b211.sleepattention.SET_NOTIFICATIONS</string>
 </resources>

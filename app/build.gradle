@@ -19,8 +19,8 @@ android {
     }
 }
 
-repositories{
-    maven {url "https://jitpack.io"}
+repositories {
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -29,4 +29,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile 'com.android.support:support-v4:23.3.0'
 }

@@ -84,6 +84,7 @@ public class RingtoneService extends Service {
             media.stop();
             media.reset();
             this.isRunning = false;
+            stopSelf();
         }
 
         //these are if the user presses random buttons

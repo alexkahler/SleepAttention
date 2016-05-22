@@ -11,7 +11,7 @@ class Sleep {
      *
      * @return
      */
-    public double getDuration() {
+    public long getDuration() {
         return duration;
     }
 
@@ -19,7 +19,7 @@ class Sleep {
      *
      * @param duration
      */
-    private void setDuration(double duration) {
+    private void setDuration(long duration) {
         this.duration = duration;
     }
 
@@ -70,7 +70,7 @@ class Sleep {
     public static final String KEY_QUALITY = "quality";
 
     private int id;
-    private double duration;
+    private long duration;
     private Date date;
     private int quality;
 
@@ -81,7 +81,7 @@ class Sleep {
      * @param date date of the sleep log
      * @param quality quality of the sleep
      */
-    public Sleep(int sleepID, double duration, Date date, int quality) {
+    public Sleep(int sleepID, long duration, Date date, int quality) {
         setID(sleepID);
         setDuration(duration);
         setDate(date);

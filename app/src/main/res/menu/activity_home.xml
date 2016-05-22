@@ -13,4 +13,9 @@
         android:orderInCategory="200"
         android:title="@string/home_menu_feedback"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_load_database"
+        android:orderInCategory="300"
+        android:title="@string/home_menu_load_database"
+        app:showAsAction="never" />
 </menu>

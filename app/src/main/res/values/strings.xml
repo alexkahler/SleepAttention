@@ -15,8 +15,10 @@
     <string name="home_error_writing_external">Error: Can\'t write to external - please contact us.</string>
     <string name="home_error_permissions">We need permission to attach the database :(</string>
     <string name="home_choose_intent_resolver">Choose an email client&#8230;</string>
+    <string name="home_choose_database_resolver">Choose a database to open.</string>
     <string name="home_error_no_email_client">No email client installed.</string>
     <string name="home_error_no_database">No database to send. Please take a some tests first.</string>
+    <string name="home_error_file_not_database">Selected file is not a database</string>
     <!-- activity home layout Strings -->
     <string name="home_sleep_button">Sleep</string>
     <string name="home_attention_button">Attention Test</string>
@@ -27,7 +29,8 @@
     <string name="home_default_last_score_text">Start logging attention tests to see your score here.</string>
     <!-- activity home menu Strings -->
     <string name="home_menu_settings">Settings</string>
-    <string name="home_menu_feedback">Feedback</string>
+    <string name="home_menu_feedback">Send Database</string>
+    <string name="home_menu_load_database">Load Database</string>
 
 
     <!-- AttentionActivity Strings -->

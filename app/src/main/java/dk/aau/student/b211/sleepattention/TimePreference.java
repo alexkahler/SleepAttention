@@ -62,8 +62,8 @@ public class TimePreference extends DialogPreference {
     }
 
     @Override
-    protected Object onGetDefaultValue(TypedArray a, int index) {
-        return a.getString(index);
+    protected Object onGetDefaultValue(TypedArray typedArray, int index) {
+        return typedArray.getString(index);
     }
 
     @Override

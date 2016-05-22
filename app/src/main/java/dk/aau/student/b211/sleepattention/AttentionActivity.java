@@ -17,9 +17,6 @@ import java.util.TimerTask;
 
 public class AttentionActivity extends AppCompatActivity {
 
-    private final Handler handler = new Handler();
-    private final Timer t = new Timer();
-    private AttentionRepository ar;
     private ImageButton imageButton;
     private Button startTestButton;
     private TextView textView;
@@ -28,9 +25,9 @@ public class AttentionActivity extends AppCompatActivity {
     private boolean isActivated;
     private boolean isWaiting;
     private long startTime;
-    private final long[] reactionTime = new long[5];
     private int currentTest = 0;
 
+    private final long[] reactionTime = new long[5];
     private static final int MIN_TEST_DELAY = 3000;
     private static final int MAX_TEST_DELAY = 7000;
 
@@ -38,7 +35,6 @@ public class AttentionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attention);
-        ar = new AttentionRepository(getApplicationContext());
         textView = (TextView)findViewById(R.id.textView);
         imageButton = (ImageButton)findViewById(R.id.attention_circle_imageButton);
         textView.setText(getString(R.string.attention_textview_default));
@@ -119,7 +115,7 @@ public class AttentionActivity extends AppCompatActivity {
                 }
 
                 textView.setText(s);
-                ar.insertRecord(new Date(), averageReactionTime);
+                new AttentionRepository(getApplicationContext()).insertRecord(new Date(), averageReactionTime);
             }
         }
     }
@@ -130,20 +126,21 @@ public class AttentionActivity extends AppCompatActivity {
     }
 
     private void delayedActivate(){
-
-        TimerTask mTimerTask = new TimerTask() {
+        final Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
             public void run() {
-                handler.post(new Runnable() {
+                runOnUiThread(new Runnable() {
+                    @Override
                     public void run() {
                         textView.setVisibility(View.INVISIBLE);
                         imageButton.setVisibility(View.VISIBLE);
-
-                        startTime = System.currentTimeMillis();
-                        isActivated = true;
                     }
                 });
+                startTime = System.currentTimeMillis();
+                isActivated = true;
+                t.cancel();
             }
-        };
-        t.schedule(mTimerTask, randomGenerator(MIN_TEST_DELAY, MAX_TEST_DELAY));
+        }, randomGenerator(MIN_TEST_DELAY, MAX_TEST_DELAY));
     }
 }

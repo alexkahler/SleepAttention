@@ -26,7 +26,7 @@ class SleepRepository {
         dbHelper = DatabaseHelper.getInstance(context);
     }
 
-    public boolean insertRecord(double duration, Date date, int quality) {
+    public boolean insertRecord(long duration, Date date, int quality) {
         ContentValues cv = new ContentValues();
         if (duration == 0.0 || date == null) {
             return false;
@@ -88,7 +88,7 @@ class SleepRepository {
                 try {
                     Sleep s = new Sleep(
                             results.getInt(results.getColumnIndex(Sleep.KEY_ID)),
-                            results.getDouble(results.getColumnIndex(Sleep.KEY_DURATION)),
+                            results.getLong(results.getColumnIndex(Sleep.KEY_DURATION)),
                             new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", new Locale("da", "DK")).parse(results.getString(results.getColumnIndex(Sleep.KEY_DATE))),
                             results.getInt(results.getColumnIndex(Sleep.KEY_QUALITY)));
                     sleepList.add(s);
@@ -104,7 +104,7 @@ class SleepRepository {
         return sleepList;
     }
 
-    public boolean updateRecord(int sleepID, double duration, Date date, int quality) {
+    public boolean updateRecord(int sleepID, long duration, Date date, int quality) {
         ContentValues cv = new ContentValues();
         if (sleepID >= 0) {
             cv.put(Sleep.KEY_ID, sleepID);

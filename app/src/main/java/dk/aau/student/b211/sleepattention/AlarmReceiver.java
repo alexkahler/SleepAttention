@@ -54,8 +54,10 @@ public class AlarmReceiver extends BroadcastReceiver {
             context.startService(service_intent);
         }
 
-        else if (intent.getAction().equals(context.getString(R.string.ACTION_SET_NOTIFICATIONS))) {
-            notificationsEnabled = sharedPreferences.getBoolean(context.getString(R.string.preferences_notifications_enabled_key), false);
+        else if (intent.getAction()
+                .equals(context.getString(R.string.ACTION_SET_NOTIFICATIONS))) {
+            notificationsEnabled = sharedPreferences
+                    .getBoolean(context.getString(R.string.preferences_notifications_enabled_key), false);
             setNotifications(notificationsEnabled);
         }
     }
